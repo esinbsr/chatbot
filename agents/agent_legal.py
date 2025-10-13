@@ -1,16 +1,12 @@
-from functools import lru_cache
+import time
 from typing import Dict, List
 
-import yaml
-
 from utils.logger import get_logger
+from utils.config import load_config
 
 logger = get_logger(__name__)
 
-with open("config/agents.yaml", "r", encoding="utf-8") as f:
-    config = yaml.safe_load(f)
-
-AGENT_CONFIG = config["agents"]["legal"]
+AGENT_CONFIG = load_config()["agents"]["legal"]
 USE_CASES: Dict[str, Dict[str, List[str] | str]] = AGENT_CONFIG.get("use_cases", {})
 
 try:
@@ -26,14 +22,13 @@ except ImportError:  # pragma: no cover - dépendance optionnelle
     )
 
 
-@lru_cache(maxsize=1)
 def _get_loda():
-    """Renvoie un client LODA réutilisable."""
+    """Renvoie un client LODA fraichement initialisé."""
     if LegifranceClient is None or Loda is None:
         return None
 
     try:
-        client = LegifranceClient.create()
+        client = LegifranceClient()
         return Loda(client)
     except Exception as exc:  # pragma: no cover
         logger.warning("Initialisation Legifrance impossible : %s", exc)
@@ -54,26 +49,35 @@ def _match_use_case(user_input: str):
 
 def _query_legifrance(user_input: str, keywords: List[str]) -> List[str]:
     """Interroge Legifrance à partir des mots-clés fournis."""
+    start_time = time.perf_counter()
     loda_client = _get_loda()
     if loda_client is None or SearchRequest is None:
         return []
 
-    # Construire une requête courte : mots-clés connus ou premiers mots de la question.
-    base_terms = keywords[:3] or user_input.lower().split()[:6]
-    query = " ".join(base_terms).strip()
+    search_terms = (keywords or user_input.lower().split())[:8]
+    query = " ".join(search_terms)[:80].strip()
+    if not query:
+        return []
 
     try:
-        request = SearchRequest(search=query or user_input[:80], page_size=3)
+        request = SearchRequest(
+            text=query,
+            champ="ARTICLE",
+            type_recherche="TOUS_LES_MOTS_DANS_UN_CHAMP",
+        )
         results = loda_client.search(request)
     except Exception as exc:  # pragma: no cover
-        logger.warning("Appel Legifrance impossible : %s", exc)
+        elapsed = time.perf_counter() - start_time
+        logger.warning("Recherche Legifrance impossible (%.2fs) : %s", elapsed, exc)
         return []
 
     references = []
-    for texte in results[:3]:
+    for texte in results[:2]:
         titre = texte.titre or texte.titre_long or "Référence sans titre"
         cid = texte.cid.value if texte.cid else "CID indisponible"
         references.append(f"{titre} (CID : {cid})")
+    elapsed = time.perf_counter() - start_time
+    logger.info("Legifrance a retourné %d référence(s) en %.2fs", len(references), elapsed)
     return references
 
 
@@ -82,25 +86,16 @@ def handle_legal_request(bot_core, user_input: str, context: str = "") -> str:
     use_case_key, use_case = _match_use_case(user_input)
     keywords = use_case.get("keywords", [])
     references = _query_legifrance(user_input, keywords)
-    references_block = "\n".join(f"- {ref}" for ref in references) or (
-        "Aucune référence Legifrance n'a pu être récupérée. Indique-le à l'utilisateur."
+    references_block = "\n".join(references) or "Aucune référence Legifrance disponible."
+    prompt = (
+        f"Rôle : {AGENT_CONFIG['role']}\n"
+        f"Objectif : {AGENT_CONFIG['goal']}\n"
+        f"Style : {AGENT_CONFIG['style']}\n"
+        f"Cas d'usage : {use_case.get('label', use_case_key)}\n"
+        f"Consignes : {use_case.get('instructions', 'Détaille un plan d’action clair.')}\n"
+        f"Références : {references_block}\n"
+        f"Demande : {user_input}\n"
+        "Réponse :"
     )
-
-    prompt = f"""
-    Tu es {AGENT_CONFIG['role']}.
-    Objectif : {AGENT_CONFIG['goal']}
-    Style : {AGENT_CONFIG['style']}
-
-    Cas d'usage identifié : {use_case.get('label', use_case_key)}
-    Consignes spécifiques : {use_case.get('instructions', 'Détaille un plan d’action clair.')}
-
-    Références Legifrance disponibles :
-    {references_block}
-
-    Demande de l'utilisateur :
-    {user_input}
-
-    Réponse :
-    """
     logger.info("Agent juridique - cas d'usage : %s", use_case_key)
     return bot_core.ask(prompt, context=context)

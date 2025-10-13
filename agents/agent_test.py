@@ -1,21 +1,16 @@
-from core import ChatbotCore
-import yaml
+from utils.config import load_config
 
-with open('config/agents.yaml', 'r', encoding='utf-8') as f:
-    config = yaml.safe_load(f)
 # Paramètres destinés aux requêtes de test ou de garde-fous.
-AGENT_CONFIG = config['agents']['test']
+AGENT_CONFIG = load_config()["agents"]["test"]
 
-bot_core = ChatbotCore()
 
-def test(user_input, context=''):
+def test(bot_core, user_input, context=""):
     """Répond aux requêtes de test en appliquant les règles définies."""
-    prompt = f"""
-    Tu es {AGENT_CONFIG['role']}
-    Objectif: {AGENT_CONFIG['goal']}
-    Style : {AGENT_CONFIG['style']}
-
-    Prompt de l'utilisateur : {user_input}
-    Réponse :
-    """
+    prompt = (
+        f"Rôle : {AGENT_CONFIG['role']}\n"
+        f"Objectif : {AGENT_CONFIG['goal']}\n"
+        f"Style : {AGENT_CONFIG['style']}\n"
+        f"Prompt : {user_input}\n"
+        "Réponse :"
+    )
     return bot_core.ask(prompt, context=context)

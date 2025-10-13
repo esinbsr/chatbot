@@ -1,6 +1,8 @@
 import logging
 import unicodedata
 
+from mistralai.models.sdkerror import SDKError
+
 from core import ChatbotCore
 from router import Router
 from agents.agent_cv import improve_text
@@ -13,19 +15,18 @@ from utils.logger import get_logger
 bot = ChatbotCore()
 router = Router("config/agents.yaml")
 logger = get_logger("main")
-context = ""
+context_history: list[str] = []
 
 # Réduire le bruit des librairies externes dans la console.
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("pylegifrance").setLevel(logging.WARNING)
-logging.getLogger("langchain").setLevel(logging.WARNING)
 
 # Référencer chaque intention sur la fonction agent correspondante.
 AGENTS_FUNCTIONS = {
-    "cv": lambda text: improve_text(bot, text, context=context),
-    "ml": lambda text: learn_ml(bot, text, context=context),
-    "test": lambda text: test(text, context=context),
-    "legal": lambda text: handle_legal_request(bot, text, context=context),
+    "cv": lambda text, ctx: improve_text(bot, text, context=ctx),
+    "ml": lambda text, ctx: learn_ml(bot, text, context=ctx),
+    "test": lambda text, ctx: test(bot, text, context=ctx),
+    "legal": lambda text, ctx: handle_legal_request(bot, text, context=ctx),
 }
 
 print("Bienvenue ! Tape 'exit' pour quitter.")
@@ -37,10 +38,11 @@ while True:
         break
 
     normalized_input = unicodedata.normalize("NFD", user_input).encode("ascii", "ignore").decode().lower()
+    current_context = "\n".join(context_history[-6:])
     if "qui t a cree" in normalized_input or "qui ta cree" in normalized_input:
         response = "J'ai été créé par Esin, Valentin, Yasmine, Gautier et Silene."
         print("Bot:", response)
-        context += f"\nUser: {user_input}\nAI: {response}"
+        context_history.append(f"User: {user_input}\nAI: {response}")
         logger.info("Réponse créateurs fournie sans routage.")
         continue
 
@@ -48,13 +50,22 @@ while True:
     agent_name = router.get_agent_for_input(user_input)
     logger.info("Intention choisie: %s", agent_name)
 
-    agent_function = AGENTS_FUNCTIONS.get(agent_name, lambda x: bot.ask(x, context=context))
+    agent_function = AGENTS_FUNCTIONS.get(
+        agent_name, lambda text, ctx: bot.ask(text, context=ctx)
+    )
 
     try:
-        response = agent_function(user_input)
+        response = agent_function(user_input, current_context)
         print("Bot:", response)
-        context += f"\nUser: {user_input}\nAI: {response}"
+        context_history.append(f"User: {user_input}\nAI: {response}")
         logger.info("Interaction stockée dans le contexte.")
+    except SDKError as exc:
+        cooldown_msg = (
+            "[Info] Service Mistral temporairement saturé (429). "
+            "Patiente quelques secondes et réessaie."
+        )
+        print(cooldown_msg)
+        logger.warning("Erreur Mistral 429 : %s", exc)
     except Exception as e:
         logger.exception("Erreur lors du traitement de la requête.")
         print(f"[Erreur] Impossible de traiter la requête : {e}")

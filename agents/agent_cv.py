@@ -1,28 +1,19 @@
-"""
-Agent spécialisé dans l'amélioration de CV, lettres de motivation et profils professionnels.
-"""
+from utils.config import load_config
 
-import yaml
-
-with open("config/agents.yaml", "r", encoding="utf-8") as f:
-    config = yaml.safe_load(f)
 # Paramètres spécialisés pour l'agent CV.
-AGENT_CONFIG = config["agents"]["cv"]
+AGENT_CONFIG = load_config()["agents"]["cv"]
 
 
 def improve_text(bot_core, user_input, purpose="CV", context=""):
     """Retourne une version améliorée du texte fourni pour un usage professionnel."""
-    prompt = f"""
-    Tu es {AGENT_CONFIG['role']}.
-    Objectif : {AGENT_CONFIG['goal']}
-    Style : {AGENT_CONFIG['style']}
-
-    Type de document : {purpose}
-    Texte à améliorer :
-    {user_input}
-
-    Version améliorée :
-    """
+    prompt = (
+        f"Rôle : {AGENT_CONFIG['role']}\n"
+        f"Objectif : {AGENT_CONFIG['goal']}\n"
+        f"Style : {AGENT_CONFIG['style']}\n"
+        f"Document : {purpose}\n"
+        f"Texte : {user_input}\n"
+        "Version améliorée :"
+    )
 
     response = bot_core.ask(prompt, context=context)
     return response

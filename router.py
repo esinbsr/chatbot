@@ -1,45 +1,151 @@
-import yaml
-from langchain_ollama import OllamaLLM
+import time
+import unicodedata
+from typing import Dict, List, Optional, Set
 
+from mistralai.models.sdkerror import SDKError
+from utils.config import load_config
 from utils.logger import get_logger
+from utils.llm import get_mistral_client
 
-# Router dynamique qui lit la configuration des agents depuis un fichier YAML et choisit l'agent le plus pertinent pour chaque requête utilisateur.
+DEFAULT_FAST_KEYWORDS: Dict[str, List[str]] = {
+    "legal": ["contrat", "juridique", "loi", "rgpd", "litige", "clause", "conformité", "procédure"],
+    "cv": [
+        "cv",
+        "curriculum",
+        "profil",
+        "lettre",
+        "candidature",
+        "experience",
+        "expérience",
+        "sap",
+        "deploiement",
+        "déploiement",
+        "reformuler",
+    ],
+    "ml": [
+        "machine learning",
+        "intelligence artificielle",
+        "modèle",
+        "modelisation",
+        "entrainement",
+        "classification",
+        "régression",
+    ],
+    "test": [
+        "test",
+        "restriction",
+        "limite",
+        "politique",
+        "interdit",
+        "veuillez",
+        "refus",
+        "refuser",
+        "règle",
+        "regle",
+    ],
+}
+
+
 class Router:
+    """Détermine l'agent le plus adapté pour une requête utilisateur."""
 
-    def __init__(self, yaml_path="config/agents.yaml"):
+    def __init__(self, yaml_path: str = "config/agents.yaml") -> None:
         self.logger = get_logger(self.__class__.__name__)
+        config = load_config(yaml_path)
+        self.agents_config = config["agents"]
+        self.agents_names = list(self.agents_config.keys())
+        router_conf = config.get("router", {})
+        raw_keywords = router_conf.get("keywords", DEFAULT_FAST_KEYWORDS)
+        self.fast_keywords = self._prepare_keywords(raw_keywords)
+        llm_model = router_conf.get("model") or config.get("llm", {}).get("model", "mistral-small-latest")
+        self.temperature = float(router_conf.get("temperature", 0.0))
+        self.max_tokens = int(router_conf.get("max_tokens", 32))
+        self.client = get_mistral_client()
+        self.model = llm_model
+        self.logger.info(
+            "Routeur Mistral '%s' initialisé (temperature=%.2f, max_tokens=%d)",
+            self.model,
+            self.temperature,
+            self.max_tokens,
+        )
 
-        # lecture du yaml
-        with open(yaml_path, "r", encoding="utf-8") as f:
-            config = yaml.safe_load(f) # transforme le contenu yaml en dictionnaire 
+    def _match_keywords(self, user_input: str) -> Optional[str]:
+        lowered = user_input.lower()
+        normalized = (
+            unicodedata.normalize("NFD", user_input).encode("ascii", "ignore").decode().lower()
+        )
+        for agent, keywords in self.fast_keywords.items():
+            if any(keyword in lowered or keyword in normalized for keyword in keywords):
+                self.logger.info("Intention trouvée par mots-clés: %s", agent)
+                return agent
+        return None
 
-        # créer la liste des agents et leurs intentions associées
-        self.agents_config = config['agents'] #dico
-        self.agents_names = list(self.agents_config.keys()) # ['hr', 'slide', 'ml']
+    def get_agent_for_input(self, user_input: str) -> str:
+        """Retourne le nom de l'agent le plus pertinent."""
+        match = self._match_keywords(user_input)
+        if match:
+            return match
 
-        # créer un petit LLM pour décider de l'intention
-        self.llm = OllamaLLM(model="mistral:7b-instruct")
+        prompt = (
+            f"Intentions disponibles : {', '.join(self.agents_names)}.\n"
+            f'Texte utilisateur : """{user_input}"""\n'
+            "Réponds uniquement par le nom de l'intention la plus adaptée."
+        )
+        self.logger.info("Classification LLM pour: %s", user_input[:120])
+        start_time = time.perf_counter()
+        try:
+            response = self.client.chat.complete(
+                model=self.model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "Tu es un routeur qui renvoie uniquement le nom d'une intention.",
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+                top_p=1.0,
+            )
+        except SDKError as exc:
+            self.logger.warning(
+                "Classification LLM indisponible (%s). Fallback vers mot-clé.", exc
+            )
+            return self._match_keywords(user_input) or self.agents_names[0]
+        elapsed = time.perf_counter() - start_time
+        agent_name = ""
+        if response.choices:
+            content = response.choices[0].message.content
+            agent_name = content.strip() if content else ""
 
-# envoie le nom de l'agent le plus pertinent pour le texte utilisateur en utilisant le llm pour classifier l'intention
-    def get_agent_for_input(self, user_input):
-
-        prompt = f"""
-        Parmi les intentions suivantes {self.agents_names}, laquelle correspond le mieux à ce texte utilisateur :
-        "{user_input}"
-        Réponds uniquement par le nom de l'intention.
-        """
-        self.logger.info("Classification de l'intention pour: %s", user_input[:120])
-        result = self.llm.invoke(prompt)
-
-        # le llm peut renvoyer un dictionnaire ou une string selon la version
-        if isinstance(result, dict):
-            agent_name = result.get("text", "").strip()
-        else:
-            agent_name = str(result).strip()
-
-        # Vérification de sécurité
         if agent_name not in self.agents_names:
-            self.logger.warning("Intention inconnue '%s', utilisation de l'agent général.", agent_name)
-            return "agent_general"
-        self.logger.info("Intention détectée: %s", agent_name)
+            fallback = self._match_keywords(user_input) or self.agents_names[0]
+            self.logger.warning(
+                "Intention inconnue '%s', fallback vers '%s'.", agent_name, fallback
+            )
+            return fallback
+
+        self.logger.info("Intention détectée: %s (%.2fs)", agent_name, elapsed)
         return agent_name
+
+    @staticmethod
+    def _prepare_keywords(raw_keywords: Dict[str, List[str]]) -> Dict[str, Set[str]]:
+        source = raw_keywords or DEFAULT_FAST_KEYWORDS
+        prepared: Dict[str, Set[str]] = {}
+        for agent, words in source.items():
+            if not isinstance(words, list):
+                continue
+            entries: Set[str] = set()
+            for word in words:
+                lowered = word.lower()
+                entries.add(lowered)
+                normalized = (
+                    unicodedata.normalize("NFD", lowered).encode("ascii", "ignore").decode()
+                )
+                if normalized:
+                    entries.add(normalized)
+            if entries:
+                prepared[agent] = entries
+        if not prepared:
+            return {agent: set(words) for agent, words in DEFAULT_FAST_KEYWORDS.items()}
+        return prepared

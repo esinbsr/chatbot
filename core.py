@@ -1,54 +1,87 @@
-# from langchain_ollama import OllamaLLM # classe qui permet de communiquer avec Ollama
+import time
+from typing import Dict, Optional
 
-# class ChatbotCore:
-#     def __init__(self, model_name='mistral:7b-instruct'):
-#         self.llm = OllamaLLM(model=model_name)
-
-# # méthode qui permet de poser une question au modèle
-#     def ask(self, prompt_text, context=''):
-#         result = self.llm.invoke(prompt_text)
-
-#         if isinstance(result, dict):
-#             return result.get('text', '')
-#         else:
-#             return str(result)
-        
-
-from langchain_ollama import OllamaLLM
-import yaml
-
+from utils.config import load_config
 from utils.logger import get_logger
+from utils.llm import get_mistral_client
 
-# Charger le yaml global pour règles générales
-with open("config/agents.yaml", "r", encoding="utf-8") as f:
-    CONFIG = yaml.safe_load(f)
+CONFIG = load_config()
 GLOBAL_RULES = CONFIG["global"]
+LLM_CONFIG = CONFIG.get("llm", {})
+DEFAULT_LLM_MODEL = LLM_CONFIG.get("model", "mistral-small-latest")
+DEFAULT_TEMPERATURE = float(LLM_CONFIG.get("temperature", 0.6))
+DEFAULT_TOP_P = float(LLM_CONFIG.get("top_p", 0.9))
+DEFAULT_MAX_TOKENS = int(LLM_CONFIG.get("max_tokens", 512))
+GLOBAL_PROMPT_PREFIX = "\n".join(
+    [
+        f"Langue : {GLOBAL_RULES['language']}",
+        f"Ton : {GLOBAL_RULES['tone']}",
+        "Règles : " + ", ".join(GLOBAL_RULES["rules"]),
+    ]
+)
 
 
 class ChatbotCore:
-    def __init__(self, model_name='mistral:7b-instruct'):
-        self.llm = OllamaLLM(model=model_name)
+    """Cœur d'appel au modèle LLM en appliquant les règles globales."""
+
+    def __init__(
+        self,
+        model_name: Optional[str] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+    ) -> None:
+        resolved_model = model_name or DEFAULT_LLM_MODEL
+        self.temperature = temperature if temperature is not None else DEFAULT_TEMPERATURE
+        self.top_p = top_p if top_p is not None else DEFAULT_TOP_P
+        self.max_tokens = max_tokens if max_tokens is not None else DEFAULT_MAX_TOKENS
+        self.client = get_mistral_client()
+        self.model = resolved_model
         self.logger = get_logger(self.__class__.__name__)
+        self.logger.info(
+            "Initialisation modèle '%s' (temperature=%.2f, top_p=%.2f, max_tokens=%d)",
+            self.model,
+            self.temperature,
+            self.top_p,
+            self.max_tokens,
+        )
 
-    def ask(self, prompt_text, context=''):
-        # Concaténer règles globales et contexte pour encadrer la question utilisateur.
-        prompt = f"""
-        Langue : {GLOBAL_RULES['language']}
-        Ton : {GLOBAL_RULES['tone']}
-        Règles : {', '.join(GLOBAL_RULES['rules'])}
-
-        Contexte de conversation : {context}
-        Question : {prompt_text}
-        """
+    def ask(self, prompt_text: str, context: str = "") -> str:
+        """Construit le prompt final et interroge le modèle."""
+        start_time = time.perf_counter()
         prompt_preview = " ".join(prompt_text.split())[:120]
         self.logger.info("Requête LLM (aperçu): %s", prompt_preview)
 
-        result = self.llm.invoke(prompt)
+        messages = [
+            {"role": "system", "content": GLOBAL_PROMPT_PREFIX},
+            {
+                "role": "user",
+                "content": (
+                    f"Contexte : {context.strip() if context else 'Aucun'}\n"
+                    f"Message : {prompt_text.strip()}\n"
+                    "Réponse :"
+                ),
+            },
+        ]
 
-        if isinstance(result, dict):
-            answer = result.get('text', '')
-        else:
-            answer = str(result).strip()
+        response = self.client.chat.complete(
+            model=self.model,
+            messages=messages,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            max_tokens=self.max_tokens,
+        )
+        answer = ""
+        if response.choices:
+            message = response.choices[0].message
+            if hasattr(message, "content"):
+                answer = message.content or ""
+            elif isinstance(message, dict):
+                answer = message.get("content", "")
+        if not isinstance(answer, str):
+            answer = str(answer or "")
+        answer = answer.strip()
 
-        self.logger.info("Réponse LLM (aperçu): %s", answer[:120])
+        elapsed = time.perf_counter() - start_time
+        self.logger.info("Réponse LLM (%.2fs, aperçu): %s", elapsed, answer[:120])
         return answer

@@ -1,25 +1,16 @@
-"""
-Agent spécialisé en apprentissage automatique et intelligence artificielle.
-"""
+from utils.config import load_config
 
-import yaml
-
-with open("config/agents.yaml", "r", encoding="utf-8") as f:
-    config = yaml.safe_load(f)
 # Config dédiée aux réponses pédagogiques sur le machine learning.
-AGENT_CONFIG = config["agents"]["ml"]
+AGENT_CONFIG = load_config()["agents"]["ml"]
 
 def learn_ml(bot_core, user_input, context=""):
     """Explique un concept de machine learning en s'adaptant au ton configuré."""
-    prompt = f"""
-    Tu es {AGENT_CONFIG['role']}.
-    Objectif : {AGENT_CONFIG['goal']}
-    Style : {AGENT_CONFIG['style']}
-
-    Question de l'utilisateur :
-    {user_input}
-
-    Réponse :
-    """
+    prompt = (
+        f"Rôle : {AGENT_CONFIG['role']}\n"
+        f"Objectif : {AGENT_CONFIG['goal']}\n"
+        f"Style : {AGENT_CONFIG['style']}\n"
+        f"Question : {user_input}\n"
+        "Réponse :"
+    )
     response = bot_core.ask(prompt, context=context)
     return response
