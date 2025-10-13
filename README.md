@@ -1,3 +1,5 @@
+<a id="top"></a>
+
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" height="60">
 </p>
@@ -35,32 +37,34 @@ Ce projet open source, soutenu par Microsoft, vise à accompagner les ETI/TPE/PM
 
 ## Stack & outils
 
-<ul style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; list-style:none; padding:0;">
-  <li style="background:#f5f5f5; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
-    <a href="https://www.python.org/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" height="48"><br>
-      <strong>Python 3.10+</strong>
-    </a>
-  </li>
-  <li style="background:#fdf4ff; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
-    <a href="https://mistral.ai/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
-      <img src="https://avatars.githubusercontent.com/u/146620074?s=200&v=4" alt="Mistral AI" height="48"><br>
-      <strong>Mistral AI</strong>
-    </a>
-  </li>
-  <li style="background:#eef6ff; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
-    <a href="https://pylegifrance.github.io/pylegifrance/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
-      <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48"><br>
-      <strong>PyLegifrance</strong>
-    </a>
-  </li>
-  <li style="background:#fff4f1; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
-    <a href="https://git-scm.com/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48"><br>
-      <strong>Git</strong>
-    </a>
-  </li>
-</ul>
+<table align="center">
+  <tr>
+    <td align="center" width="160">
+      <a href="https://www.python.org/" target="_blank" rel="noreferrer">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" height="48">
+        <br><sub><strong>Python 3.10+</strong></sub>
+      </a>
+    </td>
+    <td align="center" width="160">
+      <a href="https://mistral.ai/" target="_blank" rel="noreferrer">
+        <img src="https://avatars.githubusercontent.com/u/146620074?s=200&v=4" alt="Mistral AI" height="48">
+        <br><sub><strong>Mistral AI</strong></sub>
+      </a>
+    </td>
+    <td align="center" width="160">
+      <a href="https://pylegifrance.github.io/pylegifrance/" target="_blank" rel="noreferrer">
+        <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48">
+        <br><sub><strong>PyLegifrance</strong></sub>
+      </a>
+    </td>
+    <td align="center" width="160">
+      <a href="https://git-scm.com/" target="_blank" rel="noreferrer">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48">
+        <br><sub><strong>Git</strong></sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -106,8 +110,10 @@ chatbot-microsoft/
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/ton-compte/chatbot-microsoft.git
+git clone https://github.com/esinbsr/chatbot-microsoft.git
 cd chatbot-microsoft
+# (optionnel) se placer sur la branche de travail
+git checkout val_mistral-api
 
 # 2. Créer et activer un environnement virtuel
 python -m venv .venv
@@ -171,6 +177,8 @@ Merci à Microsoft pour l'accompagnement et le sponsoring du défi « À vous l�
 
 ---
 
-<p align="right" style="font-size:14px;">
-  <a href="#" style="text-decoration:none; color:#0e75b6;">⬆ Retour en haut</a>
+<p align="center">Made with ❤️ en France</p>
+
+<p align="right">
+  <a href="#top">⬆ Retour en haut</a>
 </p>
