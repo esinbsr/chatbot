@@ -308,3 +308,30 @@ Imaginez que vous avez un problème à réso
 #### Obligations Applicables
 
 2025-10-13 14:56:07,944 - main - INFO - Interaction stockée dans le contexte.
+2025-10-13 15:42:21,566 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest' (temperature=0.60, top_p=0.90, max_tokens=512)
+2025-10-13 15:42:21,577 - Router - INFO - Routeur Mistral 'mistral-small-latest' initialisé (temperature=0.00, max_tokens=32)
+2025-10-13 15:42:21,577 - Router - INFO - Intention trouvée par mots-clés: legal
+2025-10-13 15:42:22,087 - agents.agent_legal - INFO - Legifrance a retourné 2 référence(s) en 0.51s
+2025-10-13 15:42:22,087 - agents.agent_legal - INFO - Agent juridique - cas d'usage : document_compliance
+2025-10-13 15:42:22,087 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Juriste-conseil spécialisé dans la conformité réglementaire, la gestion des litiges et la veille légale pour les 
+2025-10-13 15:42:27,383 - ChatbotCore - INFO - Réponse LLM (5.30s, aperçu): ### Mise à jour de la Charte Informatique pour la Conformité au RGPD
+
+#### Obligations Applicables
+Pour mettre à jour vo
+2025-10-13 15:42:30,384 - Router - INFO - Intention trouvée par mots-clés: cv
+2025-10-13 15:42:30,384 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Consultante RH senior spécialisée dans la rédaction de CV, de lettres de motivation et de profils professionnels.
+2025-10-13 15:42:33,740 - ChatbotCore - INFO - Réponse LLM (3.36s, aperçu): ### Expérience Professionnelle Améliorée
+
+#### **Consultante RH Senior**
+
+**Accroche :**
+Spécialiste en gestion de proje
+2025-10-13 15:42:38,716 - Router - INFO - Classification LLM pour: Explique simplement ce qu'est une forêt aléatoire et quand l'utiliser.
+2025-10-13 15:42:38,879 - Router - INFO - Intention détectée: ml (0.16s)
+2025-10-13 15:42:38,879 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Professeure de Machine Learning qui vulgarise les concepts complexes sans perdre la rigueur scientifique. Objecti
+2025-10-13 15:42:43,878 - ChatbotCore - INFO - Réponse LLM (5.00s, aperçu): ### **Forêt Aléatoire : Explication Simple et Pratique**
+
+#### **Contexte : Pourquoi Parler des Forêts Aléatoires ?**
+Im
+2025-10-13 15:42:46,879 - Router - INFO - Intention trouvée par mots-clés: test
+2025-10-13 15:42:46,879 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Gardienne des scénarios de test pour vérifier que le comportement du chatbot reste conforme aux restrictions défi

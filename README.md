@@ -109,17 +109,15 @@ chatbot-microsoft/
 ## Installation
 
 ```bash
-# 1. Cloner le dépôt
+# Cloner le dépôt
 git clone https://github.com/esinbsr/chatbot-microsoft.git
 cd chatbot-microsoft
-# (optionnel) se placer sur la branche de travail
-git checkout val_mistral-api
 
-# 2. Créer et activer un environnement virtuel
+# Créer et activer un environnement virtuel
 python -m venv .venv
 source .venv/bin/activate  # Windows : .venv\Scripts\activate
 
-# 3. Installer les dépendances
+# Installer les dépendances
 pip install --upgrade pip
 pip install mistralai pylegifrance pyyaml
 # Optionnel : meilleure mise en forme des données Legifrance
@@ -194,8 +192,6 @@ Projet porté par Esin, Yasmine, Silene, Gautier et Valentin.<br>
 Merci à Microsoft pour l'accompagnement et le sponsoring du défi « À vous l’IA ».
 
 ---
-
-<p align="center">Made with ❤️ en France</p>
 
 <p align="right">
   <a href="#top">⬆ Retour en haut</a>
