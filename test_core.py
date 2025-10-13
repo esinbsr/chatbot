@@ -1,4 +1,4 @@
-from chatbot.core import ChatbotCore
+from core import ChatbotCore
 
 bot = ChatbotCore()
 context=''

@@ -1,11 +1,23 @@
-from chatbot.core import ChatbotCore
+"""
+Agent spécialisé en apprentissage automatique et intelligence artificielle.
+"""
 
-bot_core = ChatbotCore()
+import yaml
 
-def learn_ml(user_input): 
+with open("config/agents.yaml", "r", encoding="utf-8") as f:
+    config = yaml.safe_load(f)
+AGENT_CONFIG = config["agents"]["ml"]
+
+def learn_ml(bot_core, user_input, context=""):
     prompt = f"""
-    Tu es un expert en Machine Learning.
-    Texte à répondre : {user_input} 
-    """
+    Tu es {AGENT_CONFIG['role']}.
+    Objectif : {AGENT_CONFIG['goal']}
+    Style : {AGENT_CONFIG['style']}
 
-    return bot_core.ask(prompt)
+    Question de l'utilisateur :
+    {user_input}
+
+    Réponse :
+    """
+    response = bot_core.ask(prompt,context=context)
+    return response
