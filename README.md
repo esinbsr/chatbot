@@ -35,24 +35,32 @@ Ce projet open source, soutenu par Microsoft, vise à accompagner les ETI/TPE/PM
 
 ## Stack & outils
 
-<p align="center">
-  <a href="https://www.python.org/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" height="48"><br>
-    <sub><strong>Python</strong></sub>
-  </a>
-  <a href="https://mistral.ai/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
-    <img src="https://avatars.githubusercontent.com/u/146620074?s=200&v=4" alt="Mistral AI" height="48"><br>
-    <sub><strong>Mistral AI</strong></sub>
-  </a>
-  <a href="https://pylegifrance.github.io/pylegifrance/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
-    <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48"><br>
-    <sub><strong>PyLegifrance</strong></sub>
-  </a>
-  <a href="https://git-scm.com/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48"><br>
-    <sub><strong>Git</strong></sub>
-  </a>
-</p>
+<ul style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px; list-style:none; padding:0;">
+  <li style="background:#f5f5f5; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
+    <a href="https://www.python.org/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" height="48"><br>
+      <strong>Python 3.10+</strong>
+    </a>
+  </li>
+  <li style="background:#fdf4ff; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
+    <a href="https://mistral.ai/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
+      <img src="https://avatars.githubusercontent.com/u/146620074?s=200&v=4" alt="Mistral AI" height="48"><br>
+      <strong>Mistral AI</strong>
+    </a>
+  </li>
+  <li style="background:#eef6ff; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
+    <a href="https://pylegifrance.github.io/pylegifrance/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
+      <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48"><br>
+      <strong>PyLegifrance</strong>
+    </a>
+  </li>
+  <li style="background:#fff4f1; border-radius:12px; padding:16px 20px; text-align:center; width:140px;">
+    <a href="https://git-scm.com/" target="_blank" rel="noreferrer" style="text-decoration:none; color:#2d2d2d;">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48"><br>
+      <strong>Git</strong>
+    </a>
+  </li>
+</ul>
 
 ---
 
@@ -163,4 +171,6 @@ Merci à Microsoft pour l'accompagnement et le sponsoring du défi « À vous l�
 
 ---
 
-<p align="center">Made with ❤️ in France</p>
+<p align="right" style="font-size:14px;">
+  <a href="#" style="text-decoration:none; color:#0e75b6;">⬆ Retour en haut</a>
+</p>
