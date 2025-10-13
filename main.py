@@ -1,8 +1,12 @@
+import logging
+import unicodedata
+
 from core import ChatbotCore
 from router import Router
 from agents.agent_cv import improve_text
 from agents.agent_ml import learn_ml
 from agents.agent_test import test
+from agents.agent_legal import handle_legal_request
 from utils.logger import get_logger
 
 # Initialisation des composants principaux du chatbot.
@@ -11,11 +15,17 @@ router = Router("config/agents.yaml")
 logger = get_logger("main")
 context = ""
 
+# Réduire le bruit des librairies externes dans la console.
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("pylegifrance").setLevel(logging.WARNING)
+logging.getLogger("langchain").setLevel(logging.WARNING)
+
 # Référencer chaque intention sur la fonction agent correspondante.
 AGENTS_FUNCTIONS = {
     "cv": lambda text: improve_text(bot, text, context=context),
     "ml": lambda text: learn_ml(bot, text, context=context),
     "test": lambda text: test(text, context=context),
+    "legal": lambda text: handle_legal_request(bot, text, context=context),
 }
 
 print("Bienvenue ! Tape 'exit' pour quitter.")
@@ -25,6 +35,14 @@ while True:
     if user_input.lower() == "exit":
         print("À bientôt !")
         break
+
+    normalized_input = unicodedata.normalize("NFD", user_input).encode("ascii", "ignore").decode().lower()
+    if "qui t a cree" in normalized_input or "qui ta cree" in normalized_input:
+        response = "J'ai été créé par Esin, Valentin, Yasmine, Gautier et Silene."
+        print("Bot:", response)
+        context += f"\nUser: {user_input}\nAI: {response}"
+        logger.info("Réponse créateurs fournie sans routage.")
+        continue
 
     # Le routeur détermine quel agent doit répondre.
     agent_name = router.get_agent_for_input(user_input)

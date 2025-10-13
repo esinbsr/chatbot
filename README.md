@@ -18,14 +18,24 @@ Notes internes et documentation de travail : https://www.notion.so/PROJET-MICROS
 - Python 3.10 ou supérieur
 - [Ollama](https://ollama.ai) installé localement
 - Modèle `mistral:7b-instruct` téléchargé via `ollama pull mistral:7b-instruct`
+- Accès API Legifrance (client_id + client_secret) pour activer l'agent juridique
 
 ## Installation
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # sous Windows : .venv\Scripts\activate
 pip install --upgrade pip
-pip install langchain_ollama pyyaml
+pip install langchain_ollama pyyaml pylegifrance
+# (optionnel) pip install beautifulsoup4  # pour un nettoyage plus lisible du texte Legifrance
 ```
+
+## Configuration Legifrance
+Renseignez vos identifiants API avant de lancer le chatbot :
+```bash
+export LEGIFRANCE_CLIENT_ID="votre_id"
+export LEGIFRANCE_CLIENT_SECRET="votre_secret"
+```
+Vous pouvez également les placer dans un fichier `.env` à la racine du projet (grâce à `python-dotenv` installé avec PyLegifrance).
 
 ## Lancement du chatbot
 ```bash
@@ -44,11 +54,18 @@ Le programme ouvre une boucle interactive dans le terminal. Tapez `exit` pour qu
   - `agent_cv.py` : améliore CV, lettres de motivation et profils professionnels.
   - `agent_ml.py` : vulgarise des notions de machine learning.
   - `agent_test.py` : vérifie les scénarios de test et les demandes sensibles.
+  - `agent_legal.py` : génère des recommandations juridiques en interrogeant PyLegifrance.
 - `rag/` : squelettes des composants RAG (loader, retriever, vector store) prêts à être complétés.
 - `utils/logger.py` : configuration centralisée du système de log.
 - `logs/` : dossier contenant le fichier `app.log` généré automatiquement.
 - `main.py` : boucle CLI principale, gère le routage et la mémoire de contexte.
 - `test_core.py` : script minimal pour tester le cœur sans router.
+
+## Cas d'usage couverts par l'agent légal
+- **Documents de conformité** : propositions de clauses, politiques et plans d'action adaptés aux rôles.
+- **Soutien aux litiges** : repérage des textes applicables, organisation des preuves et préparation de rapports.
+- **Veille réglementaire & reporting** : calendrier des obligations, synthèse des évolutions et indicateurs de suivi.
+> Sans identifiants Legifrance valides, l'agent signale l'absence de références et fournit des recommandations génériques.
 
 ## Journalisation
 Le module `utils/logger.py` configure un logger partagé :
