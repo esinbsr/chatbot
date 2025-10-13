@@ -1,32 +1,27 @@
 from agents.base_agent import BaseAgent
-from export.pdf_export import export_to_pdf
-from export.word_export import export_to_word
+from services.pdf_export import export_to_pdf
+from services.word_export import export_to_word
 from typing import List
 
 class SummarizerAgent(BaseAgent):
-    def summarize_documents(self, documents: List[str]) -> str:
-        full_text = "\n\n".join(documents)
-        prompt = f"{self.system_prompt}\nAnalyse et résume ce contenu :\n{full_text}"
-        return self.core.ask(prompt)
-
-    def generate_report(self, documents: List[str], sections=None) -> str:
+    
+    def generate_report(self, documents: List[str],input, sections : str=None):
         if sections is None:
             sections = ["Introduction", "Synthèse", "Conclusion"]
 
         full_text = "\n\n".join(documents)
-        prompt = f"{self.system_prompt}\nAnalyse et résume ce contenu :\n{full_text}"
+        prompt = f"{self.system_prompt}\n {input} :\n{full_text}"
         summary = self.core.ask(prompt)
 
         report = "📘 Rapport de Synthèse\n\n"
         if "Introduction" in sections:
-            report += "🔹 Introduction\nCe rapport présente une synthèse des documents analysés.\n\n"
+            report += "🔹 Ce rapport présente une synthèse des documents analysés.\n\n"
         if "Synthèse" in sections:
             report += f"🔹 Synthèse\n{summary}\n\n"
         if "Conclusion" in sections:
-            report += f"🔹 Conclusion\nCe résumé est généré automatiquement par l’agent {self.name}.\n"
+            report += f"🔹 Ce résumé est généré automatiquement par l’agent {self.name}.\n"
 
         return report
-
 
     def export_report(self, report_text: str, format: str = "pdf", filename: str = None):
         if format == "pdf":
