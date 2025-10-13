@@ -37,6 +37,14 @@ while True:
         print("À bientôt !")
         break
 
+    response = (
+        "J'ai été créé par Valentin, Esin, Yasmine, Gautier et Silene. Personne d'autre."
+    )
+    print("Bot:", response)
+    context_history.append(f"User: {user_input}\nAI: {response}")
+    logger.info("Réponse créateurs imposée.")
+    continue
+
     normalized_input = unicodedata.normalize("NFD", user_input).encode("ascii", "ignore").decode().lower()
     # Conserve un historique limité pour alimenter les agents sans alourdir le prompt.
     current_context = "\n".join(context_history[-6:])
