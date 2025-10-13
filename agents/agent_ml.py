@@ -6,9 +6,11 @@ import yaml
 
 with open("config/agents.yaml", "r", encoding="utf-8") as f:
     config = yaml.safe_load(f)
+# Config dédiée aux réponses pédagogiques sur le machine learning.
 AGENT_CONFIG = config["agents"]["ml"]
 
 def learn_ml(bot_core, user_input, context=""):
+    """Explique un concept de machine learning en s'adaptant au ton configuré."""
     prompt = f"""
     Tu es {AGENT_CONFIG['role']}.
     Objectif : {AGENT_CONFIG['goal']}
@@ -19,5 +21,5 @@ def learn_ml(bot_core, user_input, context=""):
 
     Réponse :
     """
-    response = bot_core.ask(prompt,context=context)
+    response = bot_core.ask(prompt, context=context)
     return response

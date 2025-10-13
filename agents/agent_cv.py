@@ -6,10 +6,12 @@ import yaml
 
 with open("config/agents.yaml", "r", encoding="utf-8") as f:
     config = yaml.safe_load(f)
+# Paramètres spécialisés pour l'agent CV.
 AGENT_CONFIG = config["agents"]["cv"]
 
 
 def improve_text(bot_core, user_input, purpose="CV", context=""):
+    """Retourne une version améliorée du texte fourni pour un usage professionnel."""
     prompt = f"""
     Tu es {AGENT_CONFIG['role']}.
     Objectif : {AGENT_CONFIG['goal']}

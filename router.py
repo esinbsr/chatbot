@@ -1,11 +1,14 @@
 import yaml
 from langchain_ollama import OllamaLLM
 
+from utils.logger import get_logger
+
 # Router dynamique qui lit la configuration des agents depuis un fichier YAML et choisit l'agent le plus pertinent pour chaque requête utilisateur.
 class Router:
 
     def __init__(self, yaml_path="config/agents.yaml"):
-        
+        self.logger = get_logger(self.__class__.__name__)
+
         # lecture du yaml
         with open(yaml_path, "r", encoding="utf-8") as f:
             config = yaml.safe_load(f) # transforme le contenu yaml en dictionnaire 
@@ -25,6 +28,7 @@ class Router:
         "{user_input}"
         Réponds uniquement par le nom de l'intention.
         """
+        self.logger.info("Classification de l'intention pour: %s", user_input[:120])
         result = self.llm.invoke(prompt)
 
         # le llm peut renvoyer un dictionnaire ou une string selon la version
@@ -35,5 +39,7 @@ class Router:
 
         # Vérification de sécurité
         if agent_name not in self.agents_names:
+            self.logger.warning("Intention inconnue '%s', utilisation de l'agent général.", agent_name)
             return "agent_general"
+        self.logger.info("Intention détectée: %s", agent_name)
         return agent_name
