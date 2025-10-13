@@ -1,4 +1,6 @@
-from chatbot.core import ChatbotCore
+from core import ChatbotCore
+
+# Script interactif pour tester rapidement le coeur du chatbot sans routage.
 
 bot = ChatbotCore()
 context=''
