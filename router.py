@@ -1,7 +1,7 @@
 import yaml
 from langchain_ollama import OllamaLLM
 
-# Router dynamique qui lit la configuration des agents depuis un fichier YAML et choisit l'agent le plus pertinent pour chaque requête utilisateur.
+# Router dynamique qui lit la configuration des agents depuis un fichier yaml et choisit l'agent le plus pertinent pour chaque requête utilisateur.
 class Router:
 
     def __init__(self, yaml_path="config/agents.yaml"):
