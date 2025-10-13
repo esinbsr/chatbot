@@ -39,28 +39,28 @@ Ce projet open source, soutenu par Microsoft, vise à accompagner les ETI/TPE/PM
 
 <table align="center">
   <tr>
-    <td align="center" width="160">
+    <td align="center" width="150">
       <a href="https://www.python.org/" target="_blank" rel="noreferrer">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" height="48">
-        <br><sub><strong>Python 3.10+</strong></sub>
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" height="48" />
+        <br /><sub><strong>Python 3.10+</strong></sub>
       </a>
     </td>
-    <td align="center" width="160">
+    <td align="center" width="150">
       <a href="https://mistral.ai/" target="_blank" rel="noreferrer">
-        <img src="https://avatars.githubusercontent.com/u/146620074?s=200&v=4" alt="Mistral AI" height="48">
-        <br><sub><strong>Mistral AI</strong></sub>
+        <img src="https://avatars.githubusercontent.com/u/146620074?s=200&v=4" alt="Mistral AI" height="48" />
+        <br /><sub><strong>Mistral AI</strong></sub>
       </a>
     </td>
-    <td align="center" width="160">
+    <td align="center" width="150">
       <a href="https://pylegifrance.github.io/pylegifrance/" target="_blank" rel="noreferrer">
-        <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48">
-        <br><sub><strong>PyLegifrance</strong></sub>
+        <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48" />
+        <br /><sub><strong>PyLegifrance</strong></sub>
       </a>
     </td>
-    <td align="center" width="160">
+    <td align="center" width="150">
       <a href="https://git-scm.com/" target="_blank" rel="noreferrer">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48">
-        <br><sub><strong>Git</strong></sub>
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48" />
+        <br /><sub><strong>Git</strong></sub>
       </a>
     </td>
   </tr>
@@ -70,7 +70,7 @@ Ce projet open source, soutenu par Microsoft, vise à accompagner les ETI/TPE/PM
 
 ## Fonctionnalités
 
-- **Routage intelligent** : un routeur combine mots-clés et classification Mistral pour choisir l'agent adapté (CV, juridique, ML, test).
+- **Routage intelligent** : combine mots-clés et classification Mistral pour choisir l'agent adapté (CV, juridique, ML, test).
 - **Agent juridique** : interroge Legifrance pour proposer des références fiables (contrats, litiges, veille réglementaire).
 - **Agent RH/CV** : améliore CV, lettres de motivation et profils professionnels.
 - **Agent pédagogique ML** : vulgarise les concepts de machine learning avec des exemples concrets.
@@ -135,12 +135,30 @@ pip install beautifulsoup4
 export LEGIFRANCE_CLIENT_ID="votre_id"
 export LEGIFRANCE_CLIENT_SECRET="votre_secret"
 ```
+<details>
+  <summary>Sous Windows (PowerShell)</summary>
+
+  ```powershell
+  $Env:LEGIFRANCE_CLIENT_ID = "votre_id"
+  $Env:LEGIFRANCE_CLIENT_SECRET = "votre_secret"
+  ```
+</details>
 
 ### API Mistral
 ```bash
 export MISTRAL_API_KEY="votre_cle_api"
 ```
+
 _Placez ces variables dans un fichier `.env` si vous utilisez un chargeur d'environnement._
+
+
+<details>
+  <summary>Sous Windows (PowerShell)</summary>
+
+  ```powershell
+  $Env:MISTRAL_API_KEY = "votre_cle_api"
+  ```
+</details>
 
 ---
 
