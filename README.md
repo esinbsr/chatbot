@@ -6,6 +6,14 @@ et un routeur qui sélectionne automatiquement l'agent le plus pertinent pour r�
 l'utilisateur. Le cœur du bot s'appuie sur `langchain_ollama` et le modèle local
 `mistral:7b-instruct`.
 
+## **Contexte du projet**
+Microsoft nous engage pour créer un chatbot open source destiné à accompagner les ETI/TPE/PME françaises.  
+L'objectif est de proposer un agent conversationnel (à terme déployé sur une page GitHub publique) capable de :
+- Identifier des cas d’usage pertinents pour l’IA générative selon le profil de l’entreprise.
+- Répondre aux questions sur la formation des collaborateurs et les aides disponibles.
+
+Notes internes et documentation de travail : https://www.notion.so/PROJET-MICROSOFT-A-vous-l-IA-276b73b4f1d480fc91d4e18c799c5c0a#276b73b4f1d480fc91d4e18c799c5c0a
+
 ## Prérequis
 - Python 3.10 ou supérieur
 - [Ollama](https://ollama.ai) installé localement
