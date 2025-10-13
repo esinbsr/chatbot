@@ -1,60 +1,74 @@
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" height="48">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" height="60">
 </p>
 
-# Chatbot IA multi-agents
+<h1 align="center">Chatbot IA multi-agents</h1>
 
-## Aperçu
-Ce projet propose une architecture de chatbot en Python reposant sur plusieurs agents spécialisés
-et un routeur qui sélectionne automatiquement l'agent le plus pertinent pour répondre à
-l'utilisateur. Le cœur du bot s'appuie sur le SDK `mistralai` et, par défaut, sur le modèle cloud
-`mistral-small-latest` (configurable).
+<p align="center">
+  <a href="#a-propos">À propos</a> ·
+  <a href="#fonctionnalités">Fonctionnalités</a> ·
+  <a href="#installation">Installation</a> ·
+  <a href="#usage">Usage</a> ·
+  <a href="#roadmap">Roadmap</a> ·
+  <a href="#soutiens">Soutiens</a>
+</p>
 
-## **Contexte du projet**
-Microsoft nous engage pour créer un chatbot open source destiné à accompagner les ETI/TPE/PME françaises.  
-L'objectif est de proposer un agent conversationnel (à terme déployé sur une page GitHub publique) capable de :
-- Identifier des cas d’usage pertinents pour l’IA générative selon le profil de l’entreprise.
-- Répondre aux questions sur la formation des collaborateurs et les aides disponibles.
+<p align="center">
+  <a href="https://github.com/esinbsr/chatbot-microsoft/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/esinbsr/chatbot-microsoft.svg?style=for-the-badge&color=0e75b6" alt="Contributors">
+  </a>
+</p>
 
-Notes internes et documentation de travail :  
-<a href="https://www.notion.so/PROJET-MICROSOFT-A-vous-l-IA-276b73b4f1d480fc91d4e18c799c5c0a#276b73b4f1d480fc91d4e18c799c5c0a" target="_blank" rel="noreferrer">Documentation Notion du projet</a>
+---
 
-## Prérequis
-- Python 3.10 ou supérieur
-- Un compte Mistral AI avec une clé API valide
-- Accès API Legifrance (client_id + client_secret) pour activer l'agent juridique
+## À propos
 
-## Installation
-```bash
-python -m venv .venv
-source .venv/bin/activate  # sous Windows : .venv\Scripts\activate
-pip install --upgrade pip
-pip install mistralai pyyaml pylegifrance
-# (optionnel) pip install beautifulsoup4  # pour un nettoyage plus lisible du texte Legifrance
-```
+Ce projet open source, soutenu par Microsoft, vise à accompagner les ETI/TPE/PME françaises dans leur transition vers l'IA générative. L'objectif est de proposer un agent conversationnel déployable sur GitHub qui :
 
-## Configuration Legifrance
-Renseignez vos identifiants API avant de lancer le chatbot :
-```bash
-export LEGIFRANCE_CLIENT_ID="votre_id"
-export LEGIFRANCE_CLIENT_SECRET="votre_secret"
-```
-Vous pouvez également les placer dans un fichier `.env` à la racine du projet (grâce à `python-dotenv` installé avec PyLegifrance).
+- identifie des cas d'usage IA pertinents selon le profil de l'entreprise ;
+- répond aux questions sur la formation des collaborateurs et les aides disponibles ;
+- s'appuie sur des sources fiables (Legifrance) pour les aspects juridiques.
 
-## Configuration de l'API Mistral
-Définissez la clé API avant d'exécuter le chatbot :
-```bash
-export MISTRAL_API_KEY="votre_cle_api"
-```
-Vous pouvez également l'inscrire dans un fichier `.env` et utiliser un chargeur d'environnement si besoin.
+> Notes internes : <a href="https://www.notion.so/PROJET-MICROSOFT-A-vous-l-IA-276b73b4f1d480fc91d4e18c799c5c0a#276b73b4f1d480fc91d4e18c799c5c0a" target="_blank" rel="noreferrer">Documentation Notion du projet</a>
 
-## Lancement du chatbot
-```bash
-python main.py
-```
-Le programme ouvre une boucle interactive dans le terminal. Tapez `exit` pour quitter la session.
+---
+
+## Stack & outils
+
+<p align="center">
+  <a href="https://www.python.org/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" height="48"><br>
+    <sub><strong>Python</strong></sub>
+  </a>
+  <a href="https://mistral.ai/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
+    <img src="https://avatars.githubusercontent.com/u/146620074?s=200&v=4" alt="Mistral AI" height="48"><br>
+    <sub><strong>Mistral AI</strong></sub>
+  </a>
+  <a href="https://pylegifrance.github.io/pylegifrance/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
+    <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48"><br>
+    <sub><strong>PyLegifrance</strong></sub>
+  </a>
+  <a href="https://git-scm.com/" style="text-decoration:none; display:inline-block; width:120px; margin:0 10px;">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48"><br>
+    <sub><strong>Git</strong></sub>
+  </a>
+</p>
+
+---
+
+## Fonctionnalités
+
+- **Routage intelligent** : un routeur combine mots-clés et classification Mistral pour choisir l'agent adapté (CV, juridique, ML, test).
+- **Agent juridique** : interroge Legifrance pour proposer des références fiables (contrats, litiges, veille réglementaire).
+- **Agent RH/CV** : améliore CV, lettres de motivation et profils professionnels.
+- **Agent pédagogique ML** : vulgarise les concepts de machine learning avec des exemples concrets.
+- **Gardien des règles** : l'agent test rappelle les limitations et refus de contenus sensibles.
+- **Historique contextuel** : chaque interaction utilise un contexte léger pour garder la cohérence des échanges.
+
+---
 
 ## Squelette du projet
+
 ```text
 chatbot-microsoft/
 ├── agents/
@@ -78,42 +92,75 @@ chatbot-microsoft/
     └── app.log
 ```
 
-## Architecture des fichiers
-- `core.py` : point d'entrée vers le LLM. Injecte les règles globales, applique les options
-  Mistral définies dans la configuration et mesure les durées d'appel.
-- `router.py` : tente d'abord une classification par mots-clés (rapide), puis interroge un
-  modèle Mistral si besoin.
-- `config/agents.yaml` : définit les règles globales, les profils de chaque agent
-  (rôle, objectif, style) ainsi que les paramètres LLM/router.
-- `agents/` : agents spécialisés (CV, juridique, ML, test) préconfigurés.
-- `utils/` : utilitaires de configuration, client LLM et journalisation.
-- `scripts/test_global.py` : vérifie rapidement que chaque agent répond correctement.
-- `logs/` : stocke le journal applicatif (`logs/app.log`).
-- `test_core.py` : script minimal pour tester le cœur sans router.
+---
 
-## Cas d'usage couverts par l'agent légal
-- **Documents de conformité** : propositions de clauses, politiques et plans d'action adaptés aux rôles.
-- **Soutien aux litiges** : repérage des textes applicables, organisation des preuves et préparation de rapports.
-- **Veille réglementaire & reporting** : calendrier des obligations, synthèse des évolutions et indicateurs de suivi.
-> Sans identifiants Legifrance valides, l'agent signale l'absence de références et fournit des recommandations génériques.
+## Installation
 
-## Journalisation
-Le module `utils/logger.py` configure un logger partagé :
-- enregistre les événements dans `logs/app.log`;
-- retient également les messages sur la sortie standard pour suivre les interactions en direct;
-- log l'aperçu des prompts envoyés et des réponses reçues.
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/ton-compte/chatbot-microsoft.git
+cd chatbot-microsoft
 
-## Personnalisation
-- Ajustez les règles globales, les descriptions d'agents ou les paramètres `llm` / `router` dans `config/agents.yaml`.
-- Ajoutez/peaufinez les mots-clés `router.keywords` pour capter vos cas d'usage et éviter la classification LLM.
-- Ajoutez de nouveaux agents en créant un fichier dans `agents/` puis en l'enregistrant dans
-  `AGENTS_FUNCTIONS` et dans la configuration YAML.
+# 2. Créer et activer un environnement virtuel
+python -m venv .venv
+source .venv/bin/activate  # Windows : .venv\Scripts\activate
 
-## Tests et benchmark
-- Utilisez `test_core.py` pour valider rapidement la connexion au modèle.
-- Lancez le test global :  
-  `python scripts/test_global.py --pause 3`  
-  Paramètres utiles :
-  - `--model mistral-tiny-latest` pour comparer un autre modèle.
-  - `--temperature 0.5` / `--max-tokens 256` pour ajuster la génération.
-- Surveillez `logs/app.log` en parallèle : les durées de routage, de génération LLM et de Legifrance y sont journalisées.
+# 3. Installer les dépendances
+pip install --upgrade pip
+pip install mistralai pylegifrance pyyaml
+# Optionnel : meilleure mise en forme des données Legifrance
+pip install beautifulsoup4
+```
+
+---
+
+## Configuration
+
+### API Legifrance
+```bash
+export LEGIFRANCE_CLIENT_ID="votre_id"
+export LEGIFRANCE_CLIENT_SECRET="votre_secret"
+```
+
+### API Mistral
+```bash
+export MISTRAL_API_KEY="votre_cle_api"
+```
+_Placez ces variables dans un fichier `.env` si vous utilisez un chargeur d'environnement._
+
+---
+
+## Usage
+
+### Lancer le chatbot
+```bash
+python main.py
+```
+Tapez `exit` pour quitter la session.
+
+### Test global
+```bash
+python scripts/test_global.py --pause 3
+```
+Options utiles :
+- `--model mistral-tiny-latest` pour tester un modèle plus léger.
+- `--temperature 0.5` et `--max-tokens 256` pour ajuster la génération.
+
+Les temps de routage / réponse et les erreurs éventuelles sont visibles dans le terminal et dans `logs/app.log`.
+
+---
+
+## Roadmap
+
+- [ ] À compléter (prochaines étapes à définir avec l'équipe).
+
+---
+
+## Soutiens
+
+Projet porté par Esin, Yasmine, Silene, Gautier et Valentin.<br>
+Merci à Microsoft pour l'accompagnement et le sponsoring du défi « À vous l’IA ».
+
+---
+
+<p align="center">Made with ❤️ in France</p>
