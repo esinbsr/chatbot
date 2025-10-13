@@ -38,6 +38,7 @@ while True:
         break
 
     normalized_input = unicodedata.normalize("NFD", user_input).encode("ascii", "ignore").decode().lower()
+    # Conserve un historique limité pour alimenter les agents sans alourdir le prompt.
     current_context = "\n".join(context_history[-6:])
     if "qui t a cree" in normalized_input or "qui ta cree" in normalized_input:
         response = "J'ai été créé par Esin, Valentin, Yasmine, Gautier et Silene."

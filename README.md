@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" height="48">
+</p>
+
 # Chatbot IA multi-agents
 
 ## Aperçu
@@ -12,7 +16,8 @@ L'objectif est de proposer un agent conversationnel (à terme déployé sur une 
 - Identifier des cas d’usage pertinents pour l’IA générative selon le profil de l’entreprise.
 - Répondre aux questions sur la formation des collaborateurs et les aides disponibles.
 
-Notes internes et documentation de travail : https://www.notion.so/PROJET-MICROSOFT-A-vous-l-IA-276b73b4f1d480fc91d4e18c799c5c0a#276b73b4f1d480fc91d4e18c799c5c0a
+Notes internes et documentation de travail :  
+<a href="https://www.notion.so/PROJET-MICROSOFT-A-vous-l-IA-276b73b4f1d480fc91d4e18c799c5c0a#276b73b4f1d480fc91d4e18c799c5c0a" target="_blank" rel="noreferrer">Documentation Notion du projet</a>
 
 ## Prérequis
 - Python 3.10 ou supérieur
@@ -49,6 +54,30 @@ python main.py
 ```
 Le programme ouvre une boucle interactive dans le terminal. Tapez `exit` pour quitter la session.
 
+## Squelette du projet
+```text
+chatbot-microsoft/
+├── agents/
+│   ├── agent_cv.py
+│   ├── agent_legal.py
+│   ├── agent_ml.py
+│   └── agent_test.py
+├── config/
+│   └── agents.yaml
+├── scripts/
+│   └── test_global.py
+├── utils/
+│   ├── config.py
+│   ├── llm.py
+│   └── logger.py
+├── core.py
+├── main.py
+├── router.py
+├── README.md
+└── logs/
+    └── app.log
+```
+
 ## Architecture des fichiers
 - `core.py` : point d'entrée vers le LLM. Injecte les règles globales, applique les options
   Mistral définies dans la configuration et mesure les durées d'appel.
@@ -56,15 +85,10 @@ Le programme ouvre une boucle interactive dans le terminal. Tapez `exit` pour qu
   modèle Mistral si besoin.
 - `config/agents.yaml` : définit les règles globales, les profils de chaque agent
   (rôle, objectif, style) ainsi que les paramètres LLM/router.
-- `agents/` :
-  - `agent_cv.py` : améliore CV, lettres de motivation et profils professionnels.
-  - `agent_ml.py` : vulgarise des notions de machine learning.
-  - `agent_test.py` : vérifie les scénarios de test et les demandes sensibles.
-  - `agent_legal.py` : génère des recommandations juridiques en interrogeant PyLegifrance.
-- `rag/` : squelettes des composants RAG (loader, retriever, vector store) prêts à être complétés.
-- `utils/logger.py` : configuration centralisée du système de log.
-- `logs/` : dossier contenant le fichier `app.log` généré automatiquement.
-- `main.py` : boucle CLI principale, gère le routage et la mémoire de contexte.
+- `agents/` : agents spécialisés (CV, juridique, ML, test) préconfigurés.
+- `utils/` : utilitaires de configuration, client LLM et journalisation.
+- `scripts/test_global.py` : vérifie rapidement que chaque agent répond correctement.
+- `logs/` : stocke le journal applicatif (`logs/app.log`).
 - `test_core.py` : script minimal pour tester le cœur sans router.
 
 ## Cas d'usage couverts par l'agent légal
@@ -87,8 +111,8 @@ Le module `utils/logger.py` configure un logger partagé :
 
 ## Tests et benchmark
 - Utilisez `test_core.py` pour valider rapidement la connexion au modèle.
-- Lancez le smoke test :  
-  `python scripts/smoke_test.py --delay 3`  
+- Lancez le test global :  
+  `python scripts/test_global.py --pause 3`  
   Paramètres utiles :
   - `--model mistral-tiny-latest` pour comparer un autre modèle.
   - `--temperature 0.5` / `--max-tokens 256` pour ajuster la génération.

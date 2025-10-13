@@ -71,6 +71,7 @@ def _query_legifrance(user_input: str, keywords: List[str]) -> List[str]:
         logger.warning("Recherche Legifrance impossible (%.2fs) : %s", elapsed, exc)
         return []
 
+    # Limite volontairement les références retournées pour garder la réponse concise.
     references = []
     for texte in results[:2]:
         titre = texte.titre or texte.titre_long or "Référence sans titre"

@@ -258,3 +258,53 @@ mistralai.models.sdkerror.SDKError: API error occurred: Status 429. Body: {"obje
 
 #### Obligations App
 2025-10-13 14:40:40,732 - main - INFO - Interaction stockée dans le contexte.
+2025-10-13 14:54:56,945 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest' (temperature=0.60, top_p=0.90, max_tokens=512)
+2025-10-13 14:54:56,956 - Router - INFO - Routeur Mistral 'mistral-small-latest' initialisé (temperature=0.00, max_tokens=32)
+2025-10-13 14:54:56,956 - Router - INFO - Intention trouvée par mots-clés: legal
+2025-10-13 14:54:57,467 - agents.agent_legal - INFO - Legifrance a retourné 2 référence(s) en 0.51s
+2025-10-13 14:54:57,467 - agents.agent_legal - INFO - Agent juridique - cas d'usage : document_compliance
+2025-10-13 14:54:57,467 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Juriste-conseil spécialisé dans la conformité réglementaire, la gestion des litiges et la veille légale pour les 
+2025-10-13 14:55:02,908 - ChatbotCore - INFO - Réponse LLM (5.44s, aperçu): ### Mise à jour de la Charte Informatique pour Conformité au RGPD
+
+#### Obligations Applicables
+Pour mettre à jour votre
+2025-10-13 14:55:07,649 - Router - INFO - Intention trouvée par mots-clés: cv
+2025-10-13 14:55:07,649 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Consultante RH senior spécialisée dans la rédaction de CV, de lettres de motivation et de profils professionnels.
+2025-10-13 14:55:14,330 - ChatbotCore - INFO - Réponse LLM (6.68s, aperçu): ### Expérience Professionnelle Améliorée
+
+#### **Consultante RH Senior**
+
+**Accroche :**
+Spécialiste en gestion de proje
+2025-10-13 14:55:17,331 - Router - INFO - Classification LLM pour: Explique simplement ce qu'est une forêt aléatoire et quand l'utiliser.
+2025-10-13 14:55:17,477 - Router - INFO - Intention détectée: ml (0.15s)
+2025-10-13 14:55:17,477 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Professeure de Machine Learning qui vulgarise les concepts complexes sans perdre la rigueur scientifique. Objecti
+2025-10-13 14:55:23,450 - ChatbotCore - INFO - Réponse LLM (5.97s, aperçu): ### **Forêt Aléatoire : Explication Simple et Utilisation**
+
+#### **Contexte**
+Imaginez que vous avez un problème à réso
+2025-10-13 14:55:26,450 - Router - INFO - Intention trouvée par mots-clés: test
+2025-10-13 14:55:26,451 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Gardienne des scénarios de test pour vérifier que le comportement du chatbot reste conforme aux restrictions défi
+2025-10-13 14:55:33,473 - ChatbotCore - INFO - Réponse LLM (7.02s, aperçu): ### **Demandes à Refuser Selon Nos Règles**
+
+#### **1. Demandes Sensibles ou Inappropriées**
+- **Exemples :**
+  - Appren
+2025-10-13 14:55:52,613 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest' (temperature=0.60, top_p=0.90, max_tokens=512)
+2025-10-13 14:55:52,619 - Router - INFO - Routeur Mistral 'mistral-small-latest' initialisé (temperature=0.00, max_tokens=32)
+2025-10-13 14:55:55,214 - Router - INFO - Intention trouvée par mots-clés: legal
+2025-10-13 14:55:55,214 - main - INFO - Intention choisie: legal
+2025-10-13 14:55:55,671 - agents.agent_legal - INFO - Legifrance a retourné 2 référence(s) en 0.46s
+2025-10-13 14:55:55,671 - agents.agent_legal - INFO - Agent juridique - cas d'usage : document_compliance
+2025-10-13 14:55:55,671 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Juriste-conseil spécialisé dans la conformité réglementaire, la gestion des litiges et la veille légale pour les 
+2025-10-13 14:55:55,845 - main - WARNING - Erreur Mistral 429 : API error occurred: Status 429. Body: {"object":"error","message":"Service tier capacity exceeded for this model.","type":"service_tier_capacity_exceeded","param":null,"code":"3505"}
+2025-10-13 14:56:01,687 - Router - INFO - Intention trouvée par mots-clés: legal
+2025-10-13 14:56:01,688 - main - INFO - Intention choisie: legal
+2025-10-13 14:56:02,114 - agents.agent_legal - INFO - Legifrance a retourné 2 référence(s) en 0.43s
+2025-10-13 14:56:02,114 - agents.agent_legal - INFO - Agent juridique - cas d'usage : document_compliance
+2025-10-13 14:56:02,114 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Juriste-conseil spécialisé dans la conformité réglementaire, la gestion des litiges et la veille légale pour les 
+2025-10-13 14:56:07,943 - ChatbotCore - INFO - Réponse LLM (5.83s, aperçu): ### Mise à jour de la Charte Informatique pour Conformité RGPD et Code du Travail en 2025
+
+#### Obligations Applicables
+
+2025-10-13 14:56:07,944 - main - INFO - Interaction stockée dans le contexte.

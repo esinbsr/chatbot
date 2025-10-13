@@ -71,9 +71,8 @@ class Router:
 
     def _match_keywords(self, user_input: str) -> Optional[str]:
         lowered = user_input.lower()
-        normalized = (
-            unicodedata.normalize("NFD", user_input).encode("ascii", "ignore").decode().lower()
-        )
+        normalized = unicodedata.normalize("NFD", user_input)
+        normalized = normalized.encode("ascii", "ignore").decode().lower()
         for agent, keywords in self.fast_keywords.items():
             if any(keyword in lowered or keyword in normalized for keyword in keywords):
                 self.logger.info("Intention trouvée par mots-clés: %s", agent)
@@ -94,6 +93,7 @@ class Router:
         self.logger.info("Classification LLM pour: %s", user_input[:120])
         start_time = time.perf_counter()
         try:
+            # Demande au modèle Mistral de décider lorsque les mots-clés ne suffisent pas.
             response = self.client.chat.complete(
                 model=self.model,
                 messages=[
@@ -139,9 +139,8 @@ class Router:
             for word in words:
                 lowered = word.lower()
                 entries.add(lowered)
-                normalized = (
-                    unicodedata.normalize("NFD", lowered).encode("ascii", "ignore").decode()
-                )
+                normalized = unicodedata.normalize("NFD", lowered)
+                normalized = normalized.encode("ascii", "ignore").decode()
                 if normalized:
                     entries.add(normalized)
             if entries:

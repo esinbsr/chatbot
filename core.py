@@ -52,6 +52,7 @@ class ChatbotCore:
         prompt_preview = " ".join(prompt_text.split())[:120]
         self.logger.info("Requête LLM (aperçu): %s", prompt_preview)
 
+        # Compose la requête complète : rappel des règles + message utilisateur.
         messages = [
             {"role": "system", "content": GLOBAL_PROMPT_PREFIX},
             {
