@@ -174,7 +174,6 @@ python scripts/test_global.py --pause 3
 ```
 Options utiles :
 - `--model mistral-tiny-latest` pour tester un modèle plus léger.
-- `--temperature 0.5` et `--max-tokens 256` pour ajuster la génération.
 
 Les temps de routage / réponse et les erreurs éventuelles sont visibles dans le terminal et dans `logs/app.log`.
 

@@ -1,5 +1,5 @@
 import time
-from typing import Dict, Optional
+from typing import Dict
 
 from utils.config import load_config
 from utils.logger import get_logger
@@ -22,28 +22,17 @@ GLOBAL_PROMPT_PREFIX = "\n".join(
 
 
 class ChatbotCore:
-    """Cœur d'appel au modèle LLM en appliquant les règles globales."""
+    """Interface minimale autour de l'API Mistral."""
 
-    def __init__(
-        self,
-        model_name: Optional[str] = None,
-        temperature: Optional[float] = None,
-        top_p: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-    ) -> None:
-        resolved_model = model_name or DEFAULT_LLM_MODEL
-        self.temperature = temperature if temperature is not None else DEFAULT_TEMPERATURE
-        self.top_p = top_p if top_p is not None else DEFAULT_TOP_P
-        self.max_tokens = max_tokens if max_tokens is not None else DEFAULT_MAX_TOKENS
+    def __init__(self, model_name: str | None = None) -> None:
+        self.model = model_name or DEFAULT_LLM_MODEL
+        self.temperature = DEFAULT_TEMPERATURE
+        self.top_p = DEFAULT_TOP_P
+        self.max_tokens = DEFAULT_MAX_TOKENS
         self.client = get_mistral_client()
-        self.model = resolved_model
         self.logger = get_logger(self.__class__.__name__)
         self.logger.info(
-            "Initialisation modèle '%s' (temperature=%.2f, top_p=%.2f, max_tokens=%d)",
-            self.model,
-            self.temperature,
-            self.top_p,
-            self.max_tokens,
+            "Initialisation modèle '%s'", self.model
         )
 
     def ask(self, prompt_text: str, context: str = "") -> str:

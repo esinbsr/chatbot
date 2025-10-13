@@ -77,12 +77,7 @@ def run_global_test(args: argparse.Namespace) -> None:
     """Exécute la série de prompts et affiche un résumé lisible."""
     config = load_config()
     default_model = config.get("llm", {}).get("model")
-    bot = ChatbotCore(
-        model_name=args.model or default_model,
-        temperature=args.temperature,
-        top_p=args.top_p,
-        max_tokens=args.max_tokens,
-    )
+    bot = ChatbotCore(model_name=args.model or default_model)
     router = Router()
     agents = build_agents(bot)
     contexte: List[str] = []
@@ -138,21 +133,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--model",
         help="Nom du modèle Mistral à utiliser (défaut : configuration YAML).",
-    )
-    parser.add_argument(
-        "--temperature",
-        type=float,
-        help="Température à appliquer (override).",
-    )
-    parser.add_argument(
-        "--top-p",
-        type=float,
-        help="Paramètre top-p à appliquer (override).",
-    )
-    parser.add_argument(
-        "--max-tokens",
-        type=int,
-        help="Nombre maximum de tokens générés (override).",
     )
     parser.add_argument(
         "--pause",

@@ -3,46 +3,22 @@ import unicodedata
 from typing import Dict, List, Optional, Set
 
 from mistralai.models.sdkerror import SDKError
+
 from utils.config import load_config
 from utils.logger import get_logger
 from utils.llm import get_mistral_client
 
+
+def _normalize(text: str) -> str:
+    """Renvoie une version ASCII et en minuscules de la chaîne."""
+    normalized = unicodedata.normalize("NFD", text)
+    return normalized.encode("ascii", "ignore").decode().lower()
+
 DEFAULT_FAST_KEYWORDS: Dict[str, List[str]] = {
     "legal": ["contrat", "juridique", "loi", "rgpd", "litige", "clause", "conformité", "procédure"],
-    "cv": [
-        "cv",
-        "curriculum",
-        "profil",
-        "lettre",
-        "candidature",
-        "experience",
-        "expérience",
-        "sap",
-        "deploiement",
-        "déploiement",
-        "reformuler",
-    ],
-    "ml": [
-        "machine learning",
-        "intelligence artificielle",
-        "modèle",
-        "modelisation",
-        "entrainement",
-        "classification",
-        "régression",
-    ],
-    "test": [
-        "test",
-        "restriction",
-        "limite",
-        "politique",
-        "interdit",
-        "veuillez",
-        "refus",
-        "refuser",
-        "règle",
-        "regle",
-    ],
+    "cv": ["cv", "curriculum", "profil", "lettre", "candidature", "experience", "sap", "déploiement", "reformuler"],
+    "ml": ["machine learning", "intelligence artificielle", "modèle", "entrainement", "classification", "régression"],
+    "test": ["test", "restriction", "limite", "politique", "interdit", "veuillez", "refus", "règle"],
 }
 
 
@@ -52,29 +28,23 @@ class Router:
     def __init__(self, yaml_path: str = "config/agents.yaml") -> None:
         self.logger = get_logger(self.__class__.__name__)
         config = load_config(yaml_path)
-        self.agents_config = config["agents"]
-        self.agents_names = list(self.agents_config.keys())
+        self.agents_names = list(config["agents"].keys())
+
         router_conf = config.get("router", {})
         raw_keywords = router_conf.get("keywords", DEFAULT_FAST_KEYWORDS)
         self.fast_keywords = self._prepare_keywords(raw_keywords)
-        llm_model = router_conf.get("model") or config.get("llm", {}).get("model", "mistral-small-latest")
+
+        self.model = router_conf.get("model") or config.get("llm", {}).get("model", "mistral-small-latest")
         self.temperature = float(router_conf.get("temperature", 0.0))
         self.max_tokens = int(router_conf.get("max_tokens", 32))
         self.client = get_mistral_client()
-        self.model = llm_model
-        self.logger.info(
-            "Routeur Mistral '%s' initialisé (temperature=%.2f, max_tokens=%d)",
-            self.model,
-            self.temperature,
-            self.max_tokens,
-        )
+
+        self.logger.info("Routeur initialisé avec le modèle '%s'", self.model)
 
     def _match_keywords(self, user_input: str) -> Optional[str]:
-        lowered = user_input.lower()
-        normalized = unicodedata.normalize("NFD", user_input)
-        normalized = normalized.encode("ascii", "ignore").decode().lower()
+        lookup = _normalize(user_input)
         for agent, keywords in self.fast_keywords.items():
-            if any(keyword in lowered or keyword in normalized for keyword in keywords):
+            if any(keyword in lookup for keyword in keywords):
                 self.logger.info("Intention trouvée par mots-clés: %s", agent)
                 return agent
         return None
@@ -135,16 +105,5 @@ class Router:
         for agent, words in source.items():
             if not isinstance(words, list):
                 continue
-            entries: Set[str] = set()
-            for word in words:
-                lowered = word.lower()
-                entries.add(lowered)
-                normalized = unicodedata.normalize("NFD", lowered)
-                normalized = normalized.encode("ascii", "ignore").decode()
-                if normalized:
-                    entries.add(normalized)
-            if entries:
-                prepared[agent] = entries
-        if not prepared:
-            return {agent: set(words) for agent, words in DEFAULT_FAST_KEYWORDS.items()}
-        return prepared
+            prepared[agent] = {_normalize(word) for word in words}
+        return prepared or {agent: {_normalize(word) for word in words} for agent, words in DEFAULT_FAST_KEYWORDS.items()}
