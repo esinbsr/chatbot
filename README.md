@@ -120,8 +120,6 @@ source .venv/bin/activate  # Windows : .venv\Scripts\activate
 # Installer les dépendances
 pip install --upgrade pip
 pip install mistralai pylegifrance pyyaml
-# Optionnel : meilleure mise en forme des données Legifrance
-pip install beautifulsoup4
 ```
 
 ---
