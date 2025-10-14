@@ -24,5 +24,6 @@ print(report)
 '''
 # Exporter si besoin
 #router.agents["SummarizerBot"].export_report(report, format="word", filename="rapport")
-slides = router.agents["SliderBot"].generate_slides("Génère moi une présentation de 8 slides sur les bases de données SQL déstinée aux développeurs de mon entreprise ")
+slides = router.agents["SliderBot"].generate_slides("Génère moi une présentation de 8 slides claires sur les bases de données SQL déstinée aux développeurs de mon entreprise ")
+
 print(slides)

@@ -1,6 +1,6 @@
 from agents.base_agent import BaseAgent
-from services.pdf_export import export_to_pdf
-from services.word_export import export_to_word
+from utils.pdf_handler import export_to_pdf
+from utils.word_handler import export_to_word
 from typing import List
 
 class SummarizerAgent(BaseAgent):
