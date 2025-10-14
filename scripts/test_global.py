@@ -19,6 +19,7 @@ from agents.agent_legal import handle_legal_request
 from agents.agent_ml import learn_ml
 from agents.agent_test import test as agent_test
 from agents.agent_onboarding import handle_onboarding
+from agents.agent_reloc import handle_relocation
 from core import ChatbotCore
 from router import Router
 from utils.config import load_config
@@ -46,6 +47,10 @@ PROMPTS: List[Tuple[str, str]] = [
         "onboarding",
         "Peux-tu préparer un parcours d'intégration pour un nouveau commercial basé à Nantes ?",
     ),
+    (
+        "reloc",
+        "Aide-moi à mettre à jour la politique de mobilité internationale pour les cadres envoyés en Amérique du Nord.",
+    ),
 ]
 
 
@@ -57,6 +62,7 @@ def build_agents(bot: ChatbotCore) -> Dict[str, Callable[[str, str], str]]:
         "test": lambda text, ctx: agent_test(bot, text, context=ctx),
         "legal": lambda text, ctx: handle_legal_request(bot, text, context=ctx),
         "onboarding": lambda text, ctx: handle_onboarding(bot, text, context=ctx),
+        "reloc": lambda text, ctx: handle_relocation(bot, text, context=ctx),
     }
 
 

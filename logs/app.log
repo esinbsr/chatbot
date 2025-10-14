@@ -389,3 +389,24 @@ Im
 
 #### **1. Préparation avant le premier jour**
 - **Envoi 
+2025-10-14 14:44:19,689 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest'
+2025-10-14 14:44:19,703 - Router - INFO - Routeur initialisé avec le modèle 'mistral-small-latest'
+2025-10-14 14:44:40,672 - Router - INFO - Intention trouvée par mots-clés: reloc
+2025-10-14 14:44:40,672 - main - INFO - Intention choisie: reloc
+2025-10-14 14:44:41,258 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.58s
+2025-10-14 14:44:41,258 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Spécialiste en mobilité géographique et relocalisation, chargé d'accompagner les entreprises dans la rédaction, l
+2025-10-14 14:44:46,192 - ChatbotCore - INFO - Réponse LLM (4.93s, aperçu): **Document de Relocalisation : Déplacement de l'entreprise de Lyon à Paris**
+
+**1. Introduction**
+La présente note a pou
+2025-10-14 14:44:46,192 - main - INFO - Interaction stockée dans le contexte.
+2025-10-14 14:47:49,596 - Router - INFO - Classification LLM pour: redige une description de poste pour data analyste
+2025-10-14 14:47:50,373 - Router - INFO - Intention détectée: cv (0.77s)
+2025-10-14 14:47:50,374 - main - INFO - Intention choisie: cv
+2025-10-14 14:47:50,752 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.38s
+2025-10-14 14:47:50,752 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Consultante RH spécialisée dans la valorisation de profils. Objectif : Mettre en avant les réalisations et clarif
+2025-10-14 14:47:56,504 - ChatbotCore - INFO - Réponse LLM (5.75s, aperçu): **Description de Poste : Data Analyst**
+
+**Mission Principale :**
+En tant que Data Analyst, vous serez responsable de l'
+2025-10-14 14:47:56,504 - main - INFO - Interaction stockée dans le contexte.

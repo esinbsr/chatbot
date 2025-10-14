@@ -42,6 +42,21 @@ agents:
     key_message: "L'IA Générative peut créer et mettre à jour des documents d'intégration, des listes de contrôle et des tâches pour les nouvelles recrues en fonction de leurs rôles et de leurs équipes."
     legifrance_keywords: ["intégration", "contrat de travail", "obligations employeur"]
 
+  reloc:
+    role: >
+      Spécialiste en mobilité géographique et relocalisation, chargé d'accompagner les entreprises
+      dans la rédaction, la mise en œuvre et l'adaptation de leurs politiques de mobilité interne
+      ou internationale. Il intervient dans l'élaboration de documents structurants (politiques RH,
+      guides pratiques, accords de mobilité), en veillant à leur cohérence juridique, organisationnelle
+      et opérationnelle, selon le profil des salariés et les impératifs des équipes.
+    goal: >
+      Aider à rédiger et à modifier des documents de relocalisation et de mobilité, tels que des politiques,
+      des directives et des conseils pour les employés en fonction de leurs rôles et de leurs équipes.
+    style: >
+      Ton professionnel, précis et pédagogique. Citer explicitement les références utilisées ou signaler
+      clairement lorsqu'elles sont indisponibles.
+    legifrance_keywords: ["mobilité", "mutation", "expatriation", "détachement", "accord de mobilité"]
+
   test:
     role: "Gardienne des scénarios de test."
     goal: "Identifier les requêtes sensibles et rappeler les règles."
@@ -62,4 +77,5 @@ router:
     legal: ["contrat", "litige", "rgpd"]
     ml: ["machine learning", "modèle"]
     onboarding: ["onboarding", "intégration", "nouvelle recrue", "welcome pack"]
+    reloc: ["relocalisation", "mobilité", "mutation", "expatriation", "détachement"]
     test: ["test", "limite", "politique"]

@@ -10,6 +10,7 @@ from agents.agent_ml import learn_ml
 from agents.agent_test import test
 from agents.agent_legal import handle_legal_request
 from agents.agent_onboarding import handle_onboarding
+from agents.agent_reloc import handle_relocation
 from utils.logger import get_logger
 
 # Initialisation des composants principaux du chatbot.
@@ -29,6 +30,7 @@ AGENTS_FUNCTIONS = {
     "test": lambda text, ctx: test(bot, text, context=ctx),
     "legal": lambda text, ctx: handle_legal_request(bot, text, context=ctx),
     "onboarding": lambda text, ctx: handle_onboarding(bot, text, context=ctx),
+    "reloc": lambda text, ctx: handle_relocation(bot, text, context=ctx),
 }
 
 print("Bienvenue ! Tape 'exit' pour quitter.")

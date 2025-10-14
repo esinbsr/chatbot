@@ -19,6 +19,7 @@ DEFAULT_FAST_KEYWORDS: Dict[str, List[str]] = {
     "cv": ["cv", "curriculum", "profil", "lettre", "candidature", "experience", "sap", "déploiement", "reformuler"],
     "ml": ["machine learning", "intelligence artificielle", "modèle", "entrainement", "classification", "régression"],
     "onboarding": ["onboarding", "intégration", "nouvelle recrue", "welcome pack", "parcours d'intégration"],
+    "reloc": ["relocalisation", "mobilité", "mutation", "expatriation", "détachement", "relocation"],
     "test": ["test", "restriction", "limite", "politique", "interdit", "veuillez", "refus", "règle"],
 }
 

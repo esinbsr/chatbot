@@ -70,12 +70,31 @@ Ce projet open source, soutenu par Microsoft, vise à accompagner les ETI/TPE/PM
 
 ## Fonctionnalités
 
-- **Routage intelligent** : combine mots-clés et classification Mistral pour choisir l'agent adapté (CV, juridique, ML, test).
-- **Agent juridique** : interroge Legifrance pour proposer des références fiables (contrats, litiges, veille réglementaire).
-- **Agent RH/CV** : améliore CV, lettres de motivation et profils professionnels.
-- **Agent pédagogique ML** : vulgarise les concepts de machine learning avec des exemples concrets.
-- **Gardien des règles** : l'agent test rappelle les limitations et refus de contenus sensibles.
+- **Routage intelligent** : combine mots-clés et classification Mistral pour choisir l'agent adapté.
+- **Références Legifrance mutualisées** : un outil commun récupère et formate les références juridiques pour tous les agents.
+- **Agents spécialisés** : CV/RH, juridique, machine learning, onboarding, relocalisation et garde-fou.
 - **Historique contextuel** : chaque interaction utilise un contexte léger pour garder la cohérence des échanges.
+- **Test global automatisé** : un script dédié vérifie en série le bon fonctionnement des agents.
+
+---
+
+## Agents conversationnels
+
+- **cv** : valorise expériences et réalisations dans les CV et lettres de motivation.
+- **legal** : propose des recommandations conformes en s'appuyant sur Legifrance.
+- **ml** : explique des concepts de machine learning avec exemples concrets.
+- **onboarding** : construit des plans d'intégration personnalisés pour les nouvelles recrues.
+- **reloc** : aide à rédiger les politiques de mobilité interne ou internationale.
+- **test** : rappelle les règles d'usage et refuse les demandes sensibles.
+
+---
+
+## Outils partagés
+
+- `tools/legifrance.py` : encapsule l'invocation de PyLegifrance (initialisation, recherche, formatage des références).
+- `core.py` : expose des helpers pour récupérer/formater les références et interroger Mistral.
+- `router.py` : routeur hybride mots-clés / LLM pour sélectionner l'agent pertinent.
+- `scripts/test_global.py` : test cli évaluant l'ensemble des agents avec des prompts représentatifs.
 
 ---
 
@@ -87,9 +106,14 @@ chatbot-microsoft/
 │   ├── agent_cv.py
 │   ├── agent_legal.py
 │   ├── agent_ml.py
+│   ├── agent_onboarding.py
+│   ├── agent_reloc.py
 │   └── agent_test.py
 ├── config/
 │   └── agents.yaml
+├── tools/
+│   ├── __init__.py
+│   └── legifrance.py
 ├── scripts/
 │   └── test_global.py
 ├── utils/
