@@ -2,6 +2,7 @@ from pptx import Presentation
 from pptx.util import Pt
 import re
 
+# export text to pptx
 def export_to_pptx(response):
     title_font_size=42
     content_font_size=28

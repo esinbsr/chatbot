@@ -1,11 +1,15 @@
 from router import AgentRouter  
 from pathlib import Path
 from PyPDF2 import PdfReader
+from utils.pdf_handler import read_pdf
 
 # Initialiser le routeur avec le fichier de config
 router = AgentRouter(config_path="config/agents.yaml")
 
-# Charger ton document DevOps
+# Charger le document 
+document=  read_pdf("C:/Users/Utilisateur/Downloads/CahierDesCharges.pdf")
+report = router.agents["SummarizerBot"].generate_report([document],"analyse ce document et génère moi un rapport qui résume tous les points abordés et génère moi un fichier .docx qui contient ce rapport")
+print(report)
 '''
 doc_path = Path("C:/Users/Utilisateur/Downloads/CahierDesCharges.pdf")
 reader = PdfReader(doc_path)
@@ -24,6 +28,6 @@ print(report)
 '''
 # Exporter si besoin
 #router.agents["SummarizerBot"].export_report(report, format="word", filename="rapport")
-slides = router.agents["SliderBot"].generate_slides("Génère moi une présentation de 8 slides claires sur les bases de données SQL déstinée aux développeurs de mon entreprise ")
+#slides = router.agents["SliderBot"].generate_slides("Génère moi une présentation de 8 slides claires sur les bases de données SQL déstinée aux développeurs de mon entreprise ")
 
-print(slides)
+#print(slides)
