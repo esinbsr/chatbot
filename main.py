@@ -1,22 +1,21 @@
-from core import ChatbotCore       
-from router import Router       
-from agents.agent_cv import improve_text
-from agents.agent_ml import learn_ml
-from agents.agent_test import test
+from core import ChatbotCore
+from router import router, agents 
+from agents.agent_ia_pme import identify_use_case
+from agents.agent_cv import improve_cv
+from agents.agent_test import agent_test_function
 
-# initialisation 
+# Initialisation du bot
 bot = ChatbotCore()
-
-router = Router("config/agents.yaml")
-
 context = ""
 
+# Dictionnaire des fonctions d'agents
 AGENTS_FUNCTIONS = {
-    "cv":   lambda text: improve_text(bot, text, context=context),
-    "ml":   lambda text: learn_ml(bot, text, context=context),
-    "test": lambda text: test(bot, text, context=context)
+    "ia_pme": identify_use_case,
+    "cv": improve_cv,
+    "agent_test": agent_test_function
 }
 
+# Boucle principale
 print("Bienvenue ! Tape 'exit' pour quitter.")
 
 while True:
@@ -25,14 +24,19 @@ while True:
         print("À bientôt !")
         break
 
-    # le routeur détermine quel agent doit répondre
-    agent_name = router.get_agent_for_input(user_input)
+    # Le router renvoie l'ID de l'agent
+    agent_id = router(user_input)
 
-    agent_function = AGENTS_FUNCTIONS.get(agent_name, lambda x: bot.ask(x, context))
+    # Récupération des infos de l'agent depuis YAML
+    agent_info = next(a for a in agents if a["id"] == agent_id)
 
-    try:
-        response = agent_function(user_input)
-        print("Bot:", response)
-        context += f"\nUser: {user_input}\nAI: {response}"
-    except Exception as e:
-        print(f"[Erreur] Impossible de traiter la requête : {e}")
+    # Récupération de la fonction correspondante
+    agent_function = AGENTS_FUNCTIONS.get(agent_id, lambda text, **kwargs: bot.ask(text, context))
+
+    # Appel de l'agent avec le contexte et les infos
+    response = agent_function(bot, user_input, context=context, agent_info=agent_info)
+
+
+    # Affichage et mise à jour du contexte
+    print("Bot:", response)
+    context += f"\nUser: {user_input}\nAI: {response}"

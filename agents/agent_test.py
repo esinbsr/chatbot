@@ -1,20 +1,6 @@
-from core import ChatbotCore
-import yaml
-
-with open('config/agents.yaml', 'r', encoding='utf-8') as f:
-    config = yaml.safe_load(f)
-AGENT_CONFIG = config['agents']['test']
-
-bot_core = ChatbotCore()
-
-def test(user_input, context=''):
-    prompt = f"""
-    Tu es {AGENT_CONFIG['role']}
-    Objectif: {AGENT_CONFIG['goal']}
-    Style : {AGENT_CONFIG['style']}
-
-    Prompt de l'utilisateur : {user_input}
-    Réponse :
+def agent_test_function(bot_core, user_input, context="", agent_info=None):
     """
-    return bot_core.ask(prompt, context=context)
-
+    Agent pour questions hors scope ou interdites.
+    """
+    print(f"[Agent] Appelé : {agent_info['id']} pour la question : {user_input}")
+    return "Désolé, je ne peux pas répondre à cette question."
