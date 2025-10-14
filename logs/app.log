@@ -335,3 +335,57 @@ Spécialiste en gestion de proje
 Im
 2025-10-13 15:42:46,879 - Router - INFO - Intention trouvée par mots-clés: test
 2025-10-13 15:42:46,879 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Gardienne des scénarios de test pour vérifier que le comportement du chatbot reste conforme aux restrictions défi
+2025-10-14 14:11:42,704 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest'
+2025-10-14 14:11:42,719 - Router - INFO - Routeur initialisé avec le modèle 'mistral-small-latest'
+2025-10-14 14:11:44,375 - main - INFO - Réponse créateurs imposée.
+2025-10-14 14:14:37,488 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest'
+2025-10-14 14:14:37,499 - Router - INFO - Routeur initialisé avec le modèle 'mistral-small-latest'
+2025-10-14 14:14:43,665 - Router - INFO - Intention trouvée par mots-clés: onboarding
+2025-10-14 14:14:43,665 - main - INFO - Intention choisie: onboarding
+2025-10-14 14:14:43,670 - tools.legifrance - WARNING - Initialisation Legifrance impossible : Required environment variables LEGIFRANCE_CLIENT_ID and/or LEGIFRANCE_CLIENT_SECRET are not set.
+2025-10-14 14:14:43,670 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Responsable intégration et expérience collaborateur. Objectif : Créer et mettre à jour des documents d'onboarding
+2025-10-14 14:14:49,437 - ChatbotCore - INFO - Réponse LLM (5.77s, aperçu): Voici un plan d'intégration détaillé pour une nouvelle recrue rejoignant l'équipe support client à Lyon, structuré en ét
+2025-10-14 14:14:49,437 - main - INFO - Interaction stockée dans le contexte.
+2025-10-14 14:22:11,978 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest'
+2025-10-14 14:22:11,991 - Router - INFO - Routeur initialisé avec le modèle 'mistral-small-latest'
+2025-10-14 14:22:28,798 - Router - INFO - Intention trouvée par mots-clés: onboarding
+2025-10-14 14:22:28,799 - main - INFO - Intention choisie: onboarding
+2025-10-14 14:22:29,446 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.65s
+2025-10-14 14:22:29,447 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Responsable intégration et expérience collaborateur. Objectif : Créer et mettre à jour des documents d'onboarding
+2025-10-14 14:22:34,969 - ChatbotCore - INFO - Réponse LLM (5.52s, aperçu): Voici un plan d’intégration détaillé pour une nouvelle recrue rejoignant l’équipe support client à Lyon, structuré en ét
+2025-10-14 14:22:34,970 - main - INFO - Interaction stockée dans le contexte.
+2025-10-14 14:22:55,092 - Router - INFO - Classification LLM pour: quit
+2025-10-14 14:22:56,163 - Router - INFO - Intention détectée: test (1.07s)
+2025-10-14 14:22:56,163 - main - INFO - Intention choisie: test
+2025-10-14 14:23:48,305 - ChatbotCore - INFO - Initialisation modèle 'mistral-small-latest'
+2025-10-14 14:23:48,316 - Router - INFO - Routeur initialisé avec le modèle 'mistral-small-latest'
+2025-10-14 14:23:48,316 - Router - INFO - Intention trouvée par mots-clés: legal
+2025-10-14 14:23:48,884 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.57s
+2025-10-14 14:23:48,884 - agents.agent_legal - INFO - Agent juridique - cas d'usage : document_compliance
+2025-10-14 14:23:48,884 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Juriste-conseil pour la conformité et la gestion des litiges. Objectif : Fournir des recommandations appuyées sur
+2025-10-14 14:23:53,496 - ChatbotCore - INFO - Réponse LLM (4.61s, aperçu): Pour mettre à jour votre charte informatique en conformité avec le RGPD, voici les étapes et recommandations à suivre :
+
+2025-10-14 14:23:56,497 - Router - INFO - Classification LLM pour: Peux-tu améliorer cette expérience : j'ai dirigé le déploiement SAP avec 8 personnes en 6 mois ?
+2025-10-14 14:23:56,665 - Router - INFO - Intention détectée: cv (0.17s)
+2025-10-14 14:23:56,942 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.28s
+2025-10-14 14:23:56,942 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Consultante RH spécialisée dans la valorisation de profils. Objectif : Mettre en avant les réalisations et clarif
+2025-10-14 14:24:00,069 - Router - INFO - Classification LLM pour: Explique simplement ce qu'est une forêt aléatoire et quand l'utiliser.
+2025-10-14 14:24:01,076 - Router - INFO - Intention détectée: ml (1.01s)
+2025-10-14 14:24:01,340 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.26s
+2025-10-14 14:24:01,340 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Professeure de Machine Learning pédagogue. Objectif : Expliquer clairement les concepts et proposer des pistes co
+2025-10-14 14:24:09,178 - ChatbotCore - INFO - Réponse LLM (7.84s, aperçu): Pour améliorer l'expérience de votre déploiement SAP avec 8 personnes en 6 mois, voici quelques pistes concrètes :
+
+### 
+2025-10-14 14:24:12,181 - Router - INFO - Classification LLM pour: Quels types de demandes devons-nous refuser selon nos règles ?
+2025-10-14 14:24:12,474 - Router - INFO - Intention détectée: legal (0.29s)
+2025-10-14 14:24:12,704 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.23s
+2025-10-14 14:24:12,704 - agents.agent_legal - INFO - Agent juridique - cas d'usage : document_compliance
+2025-10-14 14:24:12,704 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Juriste-conseil pour la conformité et la gestion des litiges. Objectif : Fournir des recommandations appuyées sur
+2025-10-14 14:24:19,184 - ChatbotCore - INFO - Réponse LLM (6.48s, aperçu): Pour répondre à votre demande concernant les types de demandes à refuser selon vos règles, voici une analyse basée sur l
+2025-10-14 14:24:22,185 - Router - INFO - Intention trouvée par mots-clés: onboarding
+2025-10-14 14:24:22,432 - tools.legifrance - INFO - Legifrance a retourné 2 référence(s) en 0.25s
+2025-10-14 14:24:22,432 - ChatbotCore - INFO - Requête LLM (aperçu): Rôle : Responsable intégration et expérience collaborateur. Objectif : Créer et mettre à jour des documents d'onboarding
+2025-10-14 14:24:30,739 - ChatbotCore - INFO - Réponse LLM (8.31s, aperçu): ### Parcours d'Intégration pour un Nouveau Commercial à Nantes
+
+#### **1. Préparation avant le premier jour**
+- **Envoi 

@@ -9,6 +9,7 @@ from agents.agent_cv import improve_text
 from agents.agent_ml import learn_ml
 from agents.agent_test import test
 from agents.agent_legal import handle_legal_request
+from agents.agent_onboarding import handle_onboarding
 from utils.logger import get_logger
 
 # Initialisation des composants principaux du chatbot.
@@ -27,6 +28,7 @@ AGENTS_FUNCTIONS = {
     "ml": lambda text, ctx: learn_ml(bot, text, context=ctx),
     "test": lambda text, ctx: test(bot, text, context=ctx),
     "legal": lambda text, ctx: handle_legal_request(bot, text, context=ctx),
+    "onboarding": lambda text, ctx: handle_onboarding(bot, text, context=ctx),
 }
 
 print("Bienvenue ! Tape 'exit' pour quitter.")
@@ -37,23 +39,16 @@ while True:
         print("À bientôt !")
         break
 
-    response = (
-        "J'ai été créé par Valentin, Esin, Yasmine, Gautier et Silene. Personne d'autre."
-    )
-    print("Bot:", response)
-    context_history.append(f"User: {user_input}\nAI: {response}")
-    logger.info("Réponse créateurs imposée.")
-    continue
-
     normalized_input = unicodedata.normalize("NFD", user_input).encode("ascii", "ignore").decode().lower()
-    # Conserve un historique limité pour alimenter les agents sans alourdir le prompt.
-    current_context = "\n".join(context_history[-6:])
     if "qui t a cree" in normalized_input or "qui ta cree" in normalized_input:
         response = "J'ai été créé par Esin, Valentin, Yasmine, Gautier et Silene."
         print("Bot:", response)
         context_history.append(f"User: {user_input}\nAI: {response}")
         logger.info("Réponse créateurs fournie sans routage.")
         continue
+
+    # Conserve un historique limité pour alimenter les agents sans alourdir le prompt.
+    current_context = "\n".join(context_history[-6:])
 
     # Le routeur détermine quel agent doit répondre.
     agent_name = router.get_agent_for_input(user_input)

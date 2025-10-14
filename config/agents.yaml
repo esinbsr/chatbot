@@ -35,6 +35,13 @@ agents:
         label: "Veille et reporting"
         instructions: "Résume les nouveautés réglementaires et donne une structure de suivi simple."
 
+  onboarding:
+    role: "Responsable intégration et expérience collaborateur."
+    goal: "Créer et mettre à jour des documents d'onboarding adaptés aux rôles et équipes."
+    style: "Chaleureux, structuré, orienté action."
+    key_message: "L'IA Générative peut créer et mettre à jour des documents d'intégration, des listes de contrôle et des tâches pour les nouvelles recrues en fonction de leurs rôles et de leurs équipes."
+    legifrance_keywords: ["intégration", "contrat de travail", "obligations employeur"]
+
   test:
     role: "Gardienne des scénarios de test."
     goal: "Identifier les requêtes sensibles et rappeler les règles."
@@ -54,4 +61,5 @@ router:
     cv: ["cv", "candidature", "profil"]
     legal: ["contrat", "litige", "rgpd"]
     ml: ["machine learning", "modèle"]
+    onboarding: ["onboarding", "intégration", "nouvelle recrue", "welcome pack"]
     test: ["test", "limite", "politique"]

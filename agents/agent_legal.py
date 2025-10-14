@@ -1,4 +1,3 @@
-import time
 from typing import Dict, List
 
 from utils.logger import get_logger
@@ -8,32 +7,6 @@ logger = get_logger(__name__)
 
 AGENT_CONFIG = load_config()["agents"]["legal"]
 USE_CASES: Dict[str, Dict[str, List[str] | str]] = AGENT_CONFIG.get("use_cases", {})
-
-try:
-    from pylegifrance import LegifranceClient
-    from pylegifrance.fonds.loda import Loda
-    from pylegifrance.models.loda.search import SearchRequest
-except ImportError:  # pragma: no cover - dépendance optionnelle
-    LegifranceClient = None  # type: ignore
-    Loda = None  # type: ignore
-    SearchRequest = None  # type: ignore
-    logger.warning(
-        "PyLegifrance n'est pas installé. L'agent juridique utilisera uniquement le modèle."
-    )
-
-
-def _get_loda():
-    """Renvoie un client LODA fraichement initialisé."""
-    if LegifranceClient is None or Loda is None:
-        return None
-
-    try:
-        client = LegifranceClient()
-        return Loda(client)
-    except Exception as exc:  # pragma: no cover
-        logger.warning("Initialisation Legifrance impossible : %s", exc)
-        return None
-
 
 def _match_use_case(user_input: str):
     """Renvoie (clé, configuration) du cas d'usage le plus pertinent."""
@@ -47,47 +20,13 @@ def _match_use_case(user_input: str):
     return default_key, USE_CASES.get(default_key, {})
 
 
-def _query_legifrance(user_input: str, keywords: List[str]) -> List[str]:
-    """Interroge Legifrance à partir des mots-clés fournis."""
-    start_time = time.perf_counter()
-    loda_client = _get_loda()
-    if loda_client is None or SearchRequest is None:
-        return []
-
-    search_terms = (keywords or user_input.lower().split())[:8]
-    query = " ".join(search_terms)[:80].strip()
-    if not query:
-        return []
-
-    try:
-        request = SearchRequest(
-            text=query,
-            champ="ARTICLE",
-            type_recherche="TOUS_LES_MOTS_DANS_UN_CHAMP",
-        )
-        results = loda_client.search(request)
-    except Exception as exc:  # pragma: no cover
-        elapsed = time.perf_counter() - start_time
-        logger.warning("Recherche Legifrance impossible (%.2fs) : %s", elapsed, exc)
-        return []
-
-    # Limite volontairement les références retournées pour garder la réponse concise.
-    references = []
-    for texte in results[:2]:
-        titre = texte.titre or texte.titre_long or "Référence sans titre"
-        cid = texte.cid.value if texte.cid else "CID indisponible"
-        references.append(f"{titre} (CID : {cid})")
-    elapsed = time.perf_counter() - start_time
-    logger.info("Legifrance a retourné %d référence(s) en %.2fs", len(references), elapsed)
-    return references
-
-
 def handle_legal_request(bot_core, user_input: str, context: str = "") -> str:
     """Produit la réponse juridique en s'appuyant sur PyLegifrance lorsque disponible."""
     use_case_key, use_case = _match_use_case(user_input)
     keywords = use_case.get("keywords", [])
-    references = _query_legifrance(user_input, keywords)
-    references_block = "\n".join(references) or "Aucune référence Legifrance disponible."
+    references = bot_core.get_legifrance_references(user_input, keywords)
+    formatted_refs = bot_core.format_legifrance_block(references)
+    references_block = formatted_refs or "Aucune référence Legifrance disponible."
     prompt = (
         f"Rôle : {AGENT_CONFIG['role']}\n"
         f"Objectif : {AGENT_CONFIG['goal']}\n"

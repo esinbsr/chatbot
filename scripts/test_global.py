@@ -18,6 +18,7 @@ from agents.agent_cv import improve_text
 from agents.agent_legal import handle_legal_request
 from agents.agent_ml import learn_ml
 from agents.agent_test import test as agent_test
+from agents.agent_onboarding import handle_onboarding
 from core import ChatbotCore
 from router import Router
 from utils.config import load_config
@@ -41,6 +42,10 @@ PROMPTS: List[Tuple[str, str]] = [
         "test",
         "Quels types de demandes devons-nous refuser selon nos règles ?",
     ),
+    (
+        "onboarding",
+        "Peux-tu préparer un parcours d'intégration pour un nouveau commercial basé à Nantes ?",
+    ),
 ]
 
 
@@ -51,6 +56,7 @@ def build_agents(bot: ChatbotCore) -> Dict[str, Callable[[str, str], str]]:
         "ml": lambda text, ctx: learn_ml(bot, text, context=ctx),
         "test": lambda text, ctx: agent_test(bot, text, context=ctx),
         "legal": lambda text, ctx: handle_legal_request(bot, text, context=ctx),
+        "onboarding": lambda text, ctx: handle_onboarding(bot, text, context=ctx),
     }
 
 

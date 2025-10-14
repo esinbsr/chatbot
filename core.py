@@ -1,9 +1,10 @@
 import time
-from typing import Dict
+from typing import Dict, Sequence, List
 
 from utils.config import load_config
 from utils.logger import get_logger
 from utils.llm import get_mistral_client
+from tools.legifrance import fetch_legifrance_references, format_legifrance_block
 
 CONFIG = load_config()
 GLOBAL_RULES = CONFIG["global"]
@@ -34,6 +35,20 @@ class ChatbotCore:
         self.logger.info(
             "Initialisation modèle '%s'", self.model
         )
+
+    def get_legifrance_references(
+        self,
+        user_input: str,
+        keywords: Sequence[str] | None = None,
+        max_results: int = 2,
+    ) -> List[str]:
+        """Expose la recherche Legifrance aux agents."""
+        return fetch_legifrance_references(user_input, keywords, max_results)
+
+    @staticmethod
+    def format_legifrance_block(references: Sequence[str]) -> str:
+        """Formate un bloc de références prêt pour un prompt."""
+        return format_legifrance_block(references)
 
     def ask(self, prompt_text: str, context: str = "") -> str:
         """Construit le prompt final et interroge le modèle."""

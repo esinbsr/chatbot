@@ -6,11 +6,21 @@ AGENT_CONFIG = load_config()["agents"]["test"]
 
 def test(bot_core, user_input, context=""):
     """Répond aux requêtes de test en appliquant les règles définies."""
-    prompt = (
-        f"Rôle : {AGENT_CONFIG['role']}\n"
-        f"Objectif : {AGENT_CONFIG['goal']}\n"
-        f"Style : {AGENT_CONFIG['style']}\n"
-        f"Prompt : {user_input}\n"
-        "Réponse :"
+    references = bot_core.get_legifrance_references(user_input)
+    references_block = bot_core.format_legifrance_block(references)
+
+    prompt_parts = [
+        f"Rôle : {AGENT_CONFIG['role']}",
+        f"Objectif : {AGENT_CONFIG['goal']}",
+        f"Style : {AGENT_CONFIG['style']}",
+    ]
+    if references_block:
+        prompt_parts.append(references_block)
+    prompt_parts.extend(
+        [
+            f"Prompt : {user_input}",
+            "Réponse :",
+        ]
     )
+    prompt = "\n".join(prompt_parts)
     return bot_core.ask(prompt, context=context)
