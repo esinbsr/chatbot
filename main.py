@@ -2,7 +2,7 @@ from core import ChatbotCore
 from router import Router
 from agents.agent_cv import improve_text
 from agents.agent_ml import learn_ml
-from agents.agent_test import test
+#from agents.agent_test import test
 from utils.logger import get_logger
 
 # Initialisation des composants principaux du chatbot.
@@ -15,7 +15,7 @@ context = ""
 AGENTS_FUNCTIONS = {
     "cv": lambda text: improve_text(bot, text, context=context),
     "ml": lambda text: learn_ml(bot, text, context=context),
-    "test": lambda text: test(text, context=context),
+   # "test": lambda text: test(text, context=context),
 }
 
 print("Bienvenue ! Tape 'exit' pour quitter.")
