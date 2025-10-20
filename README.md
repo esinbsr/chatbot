@@ -26,7 +26,7 @@
 
 ## À propos
 
-Cette branche `main` héberge un chatbot multi-agents conçu pour aider les dirigeants de PME/ETI françaises à identifier des cas d’usage IA tout en offrant un accompagnement RH. L’application combine un routage hybride (mots-clés + similarité sémantique) et un cœur de réponse propulsé par Ollama. Un outil dédié simplifie également la récupération de références juridiques via Legifrance.
+Cette branche `main` héberge un chatbot multi-agents conçu pour aider les dirigeants de PME/ETI françaises à identifier des cas d’usage IA tout en offrant un accompagnement RH. L’application combine un routage hybride (mots-clés + similarité sémantique) et un cœur de réponse propulsé par Ollama. Un outil dédié simplifie également la récupération de références juridiques via Legifrance. Ce README centralise les informations indispensables pour prendre en main le projet.
 
 ---
 
@@ -48,7 +48,7 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
     </td>
     <td align="center" width="150">
       <a href="https://www.sbert.net/" target="_blank" rel="noreferrer">
-        <img src="https://avatars.githubusercontent.com/u/22535074?s=200&v=4" alt="Sentence Transformers" height="48" />
+        <img src="https://www.sbert.net/_static/logo.png" alt="Sentence Transformers" height="48" />
         <br /><sub><strong>Sentence Transformers</strong></sub>
       </a>
     </td>
@@ -56,6 +56,20 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
       <a href="https://pylegifrance.github.io/pylegifrance/" target="_blank" rel="noreferrer">
         <img src="https://pylegifrance.github.io/pylegifrance/assets/images/logo.svg" alt="PyLegifrance" height="48" />
         <br /><sub><strong>PyLegifrance</strong></sub>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="150">
+      <a href="https://www.sqlite.org/index.html" target="_blank" rel="noreferrer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/SQLite370.svg" alt="SQLite" height="48" />
+        <br /><sub><strong>SQLite</strong></sub>
+      </a>
+    </td>
+    <td align="center" width="150">
+      <a href="https://git-scm.com/" target="_blank" rel="noreferrer">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" height="48" />
+        <br /><sub><strong>Git</strong></sub>
       </a>
     </td>
   </tr>
@@ -100,7 +114,8 @@ Les rôles, objectifs, styles et mots-clés sont configurés dans `config/agents
 chatbot-microsoft/
 ├── agents/
 │   ├── agent_cv.py
-│   └── agent_ia_pme.py
+│   ├── agent_ia_pme.py
+│   └── agent_legal.py
 ├── config/
 │   └── agents.yaml
 ├── data/
@@ -117,9 +132,11 @@ chatbot-microsoft/
 ├── core.py
 ├── main.py
 ├── router.py
+├── sqlite3/
+│   └── bdd.py
 ├── README.md
 └── scripts/
-    └── test_global.py (à compléter selon besoins)
+    └── __pycache__/
 ```
 
 ---
