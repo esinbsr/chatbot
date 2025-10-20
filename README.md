@@ -68,7 +68,7 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
 - **Routage hybride** : le router combine recherche rapide sur mots-clés et index FAISS pour sélectionner l’agent le plus pertinent.
 - **Cœur unifié** : `ChatbotCore` applique les règles globales de `config/agents.yaml` et délègue la génération à Ollama (`mistral:7b-instruct` par défaut).
 - **Agents spécialisés** : un expert adoption IA et un consultant CV disposent de prompts dédiés pour guider leurs réponses.
-- **Outil Legifrance** : `tools/legifrance.py` initialise PyLegifrance, gère l’authentification et formate les références juridiques.
+- **Outil Legifrance** : `tools/legifrance.py` initialise PyLegifrance, gère l’authentification et formate les références juridiques utilisées par l’agent `legal`.
 - **Préparation RAG** : le dossier `rag/` centralise loader, retriever et vectorstore pour enrichir le contexte conversationnel.
 - **Contexte persistant** : l’historique est ajouté au fil des échanges pour conserver la cohérence de la session CLI.
 
@@ -78,6 +78,7 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
 
 - **ia_pme** : accompagne les dirigeants dans l’identification de cas d’usage IA, des formations et aides disponibles.
 - **cv** : fournit des conseils pour améliorer CV et lettres de motivation.
+- **legal** : délivre des informations juridiques synthétiques en s’appuyant sur des références Legifrance mises à jour.
 - **fallback générique** : si aucun agent ne correspond, la requête repasse par le cœur du chatbot pour une réponse neutre ou un refus.
 
 Les rôles, objectifs, styles et mots-clés sont configurés dans `config/agents.yaml`.
@@ -210,4 +211,3 @@ Merci à Microsoft pour l’accompagnement et le sponsoring du défi « À vous 
 <p align="right">
   <a href="#top">⬆ Retour en haut</a>
 </p>
-

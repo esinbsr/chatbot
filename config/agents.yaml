@@ -22,3 +22,24 @@ agents:
     style: "Professionnel, bienveillant et structuré"
     keywords: ["cv", "lettre de motivation", "recrutement", "emploi", "poste", "entretien", "profil", "candidature", "expérience", "compétence"]
     use_rag: false
+
+  - id: "legal"
+    role: "Juriste spécialisé en droit du travail et droit des affaires français"
+    goal: "Fournir des informations juridiques fiables et orienter vers les bons textes officiels"
+    style: "Précis, factuel et pédagogue"
+    keywords:
+      [
+        "juridique",
+        "legal",
+        "légal",
+        "loi",
+        "code du travail",
+        "contrat",
+        "obligation",
+        "réglementation",
+        "legifrance",
+        "réglementaire",
+        "code",
+        "article",
+      ]
+    use_rag: false
