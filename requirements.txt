@@ -1,0 +1,10 @@
+chromadb
+faiss-cpu
+langchain
+langchain-chroma
+langchain-ollama
+langchain-text-splitters
+PyYAML
+python-dotenv
+pylegifrance
+sentence-transformers

@@ -5,6 +5,7 @@ venv/
 env/
 .env
 .python-version
+logs/
 .mypy_cache/
 .pytest_cache/
 .idea/

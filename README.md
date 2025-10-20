@@ -16,6 +16,7 @@
   <a href="#installation">Installation</a> ·
   <a href="#configuration">Configuration</a> ·
   <a href="#usage">Usage</a> ·
+  <a href="#tests">Tests</a> ·
   <a href="#roadmap">Roadmap</a> ·
   <a href="#soutiens">Soutiens</a>
 </p>
@@ -92,6 +93,8 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
 - **Agents spécialisés** : un expert adoption IA et un consultant CV disposent de prompts dédiés pour guider leurs réponses.
 - **Outil Legifrance** : `tools/legifrance.py` initialise PyLegifrance, gère l’authentification et formate les références juridiques utilisées par l’agent `legal`.
 - **Préparation RAG** : le dossier `rag/` centralise loader, retriever et vectorstore pour enrichir le contexte conversationnel.
+- **Stockage SQLite léger** : `sqlite3/bdd.py` prépare la table `data_form` pour tracer les cas d’usage identifiés.
+- **Journalisation centralisée** : `utils/logger.py` configure un logger partagé qui alimente `logs/app.log`.
 - **Contexte persistant** : l’historique est ajouté au fil des échanges pour conserver la cohérence de la session CLI.
 
 <p align="right"><a href="#top">Retour en haut</a></p>
@@ -117,6 +120,7 @@ Les rôles, objectifs, styles et mots-clés sont configurés dans `config/agents
 2. Sinon, il calcule une similarité via Sentence Transformers + FAISS pour trouver l’agent le plus proche.
 3. L’agent identifié assemble son prompt (règles globales + instructions spécifiques) puis appelle `ChatbotCore`.
 4. Le contexte conversationnel est mis à jour après chaque échange.
+5. Les informations structurées peuvent être persistées via la base SQLite initialisée dans `sqlite3/bdd.py`.
 
 <p align="right"><a href="#top">Retour en haut</a></p>
 
@@ -133,7 +137,10 @@ chatbot-microsoft/
 ├── config/
 │   └── agents.yaml
 ├── data/
+│   ├── inputs/
+│   └── outputs/
 ├── rag/
+│   ├── get_embedding_function.py
 │   ├── loader.py
 │   ├── retriever.py
 │   └── vectorstore.py
@@ -146,11 +153,12 @@ chatbot-microsoft/
 ├── core.py
 ├── main.py
 ├── router.py
-├── sqlite3/
-│   └── bdd.py
+├── logs/
+│   └── app.log (généré automatiquement)
 ├── README.md
-└── scripts/
-    └── __pycache__/
+├── scripts/            # répertoire réservé aux tests/automation
+└── sqlite3/
+    └── bdd.py
 ```
 
 <p align="right"><a href="#top">Retour en haut</a></p>
@@ -163,14 +171,26 @@ chatbot-microsoft/
 # Cloner le dépôt
 git clone https://github.com/esinbsr/chatbot-microsoft.git
 cd chatbot-microsoft
+```
 
-# Créer et activer un environnement virtuel
-python -m venv .venv
-source .venv/bin/activate  # Windows : .venv\Scripts\activate
+### Créer et activer un environnement virtuel (Linux / macOS)
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+<details>
+  <summary>Sous Windows (PowerShell)</summary>
 
-# Installer les dépendances principales
+  ```powershell
+  python -m venv .venv
+  .\.venv\Scripts\Activate.ps1
+  ```
+</details>
+
+### Installer les dépendances
+```bash
 pip install --upgrade pip
-pip install langchain-ollama sentence-transformers faiss-cpu pylegifrance pyyaml python-dotenv
+pip install -r requirements.txt
 ```
 
 ### Préparer Ollama
@@ -215,9 +235,25 @@ export OLLAMA_HOST="http://127.0.0.1:11434"  # valeur par défaut
 
 ### Lancer le chatbot en local
 ```bash
-python main.py
+python3 main.py
 ```
 Saisissez vos questions directement dans le terminal. Tapez `exit` pour fermer la session.
+
+<details>
+  <summary>Sous Windows (PowerShell)</summary>
+
+  ```powershell
+  python main.py
+  ```
+</details>
+
+> Les échanges et avertissements sont journalisés dans `logs/app.log` (créé automatiquement).
+
+### Initialiser la base SQLite
+```bash
+python sqlite3/bdd.py
+```
+Ce script crée le fichier `data_form.db` (s’il n’existe pas) avec la table `data_form`. Vous pouvez ensuite l’inspecter via `sqlite3 data_form.db` ou tout outil compatible.
 
 ### Intégrer Legifrance dans vos prompts
 ```python
@@ -226,6 +262,32 @@ from tools.legifrance import fetch_legifrance_references, format_legifrance_bloc
 refs = fetch_legifrance_references("contrat de travail temps partiel", max_results=3)
 print(format_legifrance_block(refs))
 ```
+
+<p align="right"><a href="#top">Retour en haut</a></p>
+
+---
+
+## Tests
+
+Le script `scripts/test_modele.py` exécute une batterie légère d’unitaires qui :
+
+- Valident le routage (mots-clés) pour chacun des agents actifs (`ia_pme`, `cv`, `legal`).
+- Vérifient que l’agent `legal` cite correctement les références Legifrance lorsqu’elles sont disponibles.
+- Journalisent un flux de bout en bout avec un cœur de chatbot simulé (`DummyCore`) pour garder le test lisible et compatible PEP 8.
+
+```bash
+python3 scripts/test_modele.py
+```
+
+<details>
+  <summary>Sous Windows (PowerShell)</summary>
+
+  ```powershell
+  python scripts/test_modele.py
+  ```
+</details>
+
+Les dépendances externes (Ollama, Sentence Transformers, FAISS) sont simulées afin que le test reste déterministe et rapide.
 
 <p align="right"><a href="#top">Retour en haut</a></p>
 
