@@ -8,7 +8,11 @@
 
 <p align="center">
   <a href="#a-propos">À propos</a> ·
+  <a href="#stack--outils">Stack & outils</a> ·
   <a href="#fonctionnalites">Fonctionnalités</a> ·
+  <a href="#agents-conversationnels">Agents conversationnels</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#squelette-du-projet">Squelette du projet</a> ·
   <a href="#installation">Installation</a> ·
   <a href="#configuration">Configuration</a> ·
   <a href="#usage">Usage</a> ·
@@ -27,6 +31,8 @@
 ## À propos
 
 Cette branche `main` héberge un chatbot multi-agents conçu pour aider les dirigeants de PME/ETI françaises à identifier des cas d’usage IA tout en offrant un accompagnement RH. L’application combine un routage hybride (mots-clés + similarité sémantique) et un cœur de réponse propulsé par Ollama. Un outil dédié simplifie également la récupération de références juridiques via Legifrance. Ce README centralise les informations indispensables pour prendre en main le projet.
+
+<p align="right"><a href="#top">Retour en haut</a></p>
 
 ---
 
@@ -75,6 +81,8 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
   </tr>
 </table>
 
+<p align="right"><a href="#top">Retour en haut</a></p>
+
 ---
 
 ## Fonctionnalités
@@ -85,6 +93,8 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
 - **Outil Legifrance** : `tools/legifrance.py` initialise PyLegifrance, gère l’authentification et formate les références juridiques utilisées par l’agent `legal`.
 - **Préparation RAG** : le dossier `rag/` centralise loader, retriever et vectorstore pour enrichir le contexte conversationnel.
 - **Contexte persistant** : l’historique est ajouté au fil des échanges pour conserver la cohérence de la session CLI.
+
+<p align="right"><a href="#top">Retour en haut</a></p>
 
 ---
 
@@ -97,6 +107,8 @@ Cette branche `main` héberge un chatbot multi-agents conçu pour aider les diri
 
 Les rôles, objectifs, styles et mots-clés sont configurés dans `config/agents.yaml`.
 
+<p align="right"><a href="#top">Retour en haut</a></p>
+
 ---
 
 ## Architecture
@@ -105,6 +117,8 @@ Les rôles, objectifs, styles et mots-clés sont configurés dans `config/agents
 2. Sinon, il calcule une similarité via Sentence Transformers + FAISS pour trouver l’agent le plus proche.
 3. L’agent identifié assemble son prompt (règles globales + instructions spécifiques) puis appelle `ChatbotCore`.
 4. Le contexte conversationnel est mis à jour après chaque échange.
+
+<p align="right"><a href="#top">Retour en haut</a></p>
 
 ---
 
@@ -139,6 +153,8 @@ chatbot-microsoft/
     └── __pycache__/
 ```
 
+<p align="right"><a href="#top">Retour en haut</a></p>
+
 ---
 
 ## Installation
@@ -163,6 +179,8 @@ pip install langchain-ollama sentence-transformers faiss-cpu pylegifrance pyyaml
 ollama pull mistral:7b-instruct
 # Vérifier que le serveur Ollama tourne (localhost:11434 par défaut)
 ```
+
+<p align="right"><a href="#top">Retour en haut</a></p>
 
 ---
 
@@ -189,6 +207,8 @@ export LEGIFRANCE_CLIENT_SECRET="votre_secret_legifrance"
 export OLLAMA_HOST="http://127.0.0.1:11434"  # valeur par défaut
 ```
 
+<p align="right"><a href="#top">Retour en haut</a></p>
+
 ---
 
 ## Usage
@@ -207,6 +227,8 @@ refs = fetch_legifrance_references("contrat de travail temps partiel", max_resul
 print(format_legifrance_block(refs))
 ```
 
+<p align="right"><a href="#top">Retour en haut</a></p>
+
 ---
 
 ## Roadmap
@@ -215,6 +237,8 @@ print(format_legifrance_block(refs))
 - [ ] Brancher le pipeline RAG sur les agents nécessitant un contexte enrichi.
 - [ ] Ajouter des tests automatisés (CLI + unitaires) pour valider routes et prompts.
 - [ ] Documenter un agent « garde-fou » dédié à la conformité.
+
+<p align="right"><a href="#top">Retour en haut</a></p>
 
 ---
 
@@ -226,5 +250,5 @@ Merci à Microsoft pour l’accompagnement et le sponsoring du défi « À vous 
 ---
 
 <p align="right">
-  <a href="#top">⬆ Retour en haut</a>
+  <a href="#top">Retour en haut</a>
 </p>
