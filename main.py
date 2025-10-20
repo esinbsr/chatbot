@@ -2,7 +2,6 @@ from core import ChatbotCore
 from router import router, agents 
 from agents.agent_ia_pme import identify_use_case
 from agents.agent_cv import improve_cv
-from agents.agent_test import agent_test_function
 
 # Initialisation du bot
 bot = ChatbotCore()
@@ -11,8 +10,7 @@ context = ""
 # Dictionnaire des fonctions d'agents
 AGENTS_FUNCTIONS = {
     "ia_pme": identify_use_case,
-    "cv": improve_cv,
-    "agent_test": agent_test_function
+    "cv": improve_cv
 }
 
 # Boucle principale

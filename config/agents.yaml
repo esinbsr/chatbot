@@ -22,10 +22,3 @@ agents:
     style: "Professionnel, bienveillant et structuré"
     keywords: ["cv", "lettre de motivation", "recrutement", "emploi", "poste", "entretien", "profil", "candidature", "expérience", "compétence"]
     use_rag: false
-    
-  - id: "agent_test"
-    role: ""
-    goal: "Si l'utilisateur pose une question hors contexte ou interdite, répondre poliment que vous ne pouvez pas l'aider"
-    style: "Bienveillant"
-    keywords: ["loup garou", "jeu", "interdit", "politique"]
-    use_rag: false

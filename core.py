@@ -1,19 +1,3 @@
-# from langchain_ollama import OllamaLLM # classe qui permet de communiquer avec Ollama
-
-# class ChatbotCore:
-#     def __init__(self, model_name='mistral:7b-instruct'):
-#         self.llm = OllamaLLM(model=model_name)
-
-# # méthode qui permet de poser une question au modèle
-#     def ask(self, prompt_text, context=''):
-#         result = self.llm.invoke(prompt_text)
-
-#         if isinstance(result, dict):
-#             return result.get('text', '')
-#         else:
-#             return str(result)
-        
-
 from langchain_ollama import OllamaLLM
 import yaml
 
